@@ -143,38 +143,6 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="inc"
-			>
-			<File
-				RelativePath=".\inc\hash.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\list.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\stack.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="src"
-			>
-			<File
-				RelativePath=".\src\hash.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\list.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\stack.c"
-				>
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
