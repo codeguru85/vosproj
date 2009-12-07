@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE log4c SYSTEM "">
+
+<log4c version="1.2.1">
+
+	<config>
+		<bufsize>0</bufsize>
+		<debug level="2"/>
+		<nocleanup>0</nocleanup>
+		<reread>1</reread>
+	</config>
+
+	<rollingpolicy name="rollingpolicy" type="sizewin" maxsize="10240" maxnum="10" />
+
+	<appender name="stdout" type="stream" layout="basic"/>
+  <appender name="stderr" type="stream" layout="dated"/>
+
+  <appender name="stream_basic" type="stream" layout="basic"/>
+  <appender name="stream_basic_r" type="stream" layout="basic_r"/>
+  <appender name="stream_dated" type="stream" layout="dated"/>
+  <appender name="stream_dated_r" type="stream" layout="dated_r"/>
+  <appender name="/sdcard/route/stream_dated" type="stream" layout="dated"/>
+
+  <appender name="stream2_basic" type="stream2" layout="basic"/>
+  <appender name="stream2_basic_r" type="stream2" layout="basic_r"/>
+  <appender name="stream2_dated" type="stream2" layout="dated"/>
+  <appender name="stream2_dated_r" type="stream2" layout="dated_r"/>
+
+  <appender name="rolling_basic" type="rollingfile" layout="basic" logdir="." prefix="rolling_basic"  rollingpolicy="rollingpolicy" />
+  <appender name="rolling_basic_r" type="rollingfile" layout="basic_r" logdir="." prefix="rolling_basic_r"  rollingpolicy="rollingpolicy" />
+  <appender name="rolling_dated" type="rollingfile" layout="dated" logdir="." prefix="rolling_dated"  rollingpolicy="rollingpolicy" />
+  <appender name="rolling_dated_r" type="rollingfile" layout="dated_r" logdir="." prefix="rolling_dated_r"  rollingpolicy="rollingpolicy" />
+
+  <appender name="syslog" type="syslog" layout="basic"/>
+  <appender name="s13file" type="s13_file" layout="basic"/>
+  <appender name="plain_stderr" type="s13_stderr" layout="none"/>
+  <appender name="cat_stderr" type="s13_stderr" layout="catlayout"/>
+  <appender name="xml_stderr" type="s13_stderr" layout="xmllayout"/>
+  <appender name="user_stderr" type="s13_stderr" layout="userlayout"/>
+
+  <layout name="basic" type="basic"/>
+  <layout name="basic_r" type="basic_r"/>
+  <layout name="dated" type="dated"/>
+  <layout name="dated_r" type="dated_r"/>
+
+  <layout name="catlayout" type="s13_cat"/>
+  <layout name="xmllayout" type="s13_xml"/>
+  <layout name="none" type="s13_none"/>
+  <layout name="userlayout" type="s13_userloc"/>
+
+  <category name="root" priority="unknown"  appender="/sdcard/route/stream_dated" />
+  <category name="com" priority="notice"  appender="stream_basic" />
+  <category name="com.luo" priority="notice"  appender="stream_dated" />
+  <category name="com.luo.log" priority="notice"  appender="stream2_dated" />
+</log4c>
