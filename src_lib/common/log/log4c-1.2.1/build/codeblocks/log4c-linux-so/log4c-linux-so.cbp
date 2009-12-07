@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="log4c-linux-so" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/liblog4c-linux-so" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/liblog4c-linux-so" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-DHAVE_CONFIG_H" />
+			<Add directory="../../../src" />
+		</Compiler>
+		<Unit filename="../../../src/config.h" />
+		<Unit filename="../../../src/log4c-api.h" />
+		<Unit filename="../../../src/log4c-wrapper.h" />
+		<Unit filename="../../../src/log4c.h" />
+		<Unit filename="../../../src/log4c/appender.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/appender.h" />
+		<Unit filename="../../../src/log4c/appender_type_mmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/appender_type_mmap.h" />
+		<Unit filename="../../../src/log4c/appender_type_rollingfile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/appender_type_rollingfile.h" />
+		<Unit filename="../../../src/log4c/appender_type_stream.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/appender_type_stream.h" />
+		<Unit filename="../../../src/log4c/appender_type_stream2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/appender_type_stream2.h" />
+		<Unit filename="../../../src/log4c/appender_type_syslog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/appender_type_syslog.h" />
+		<Unit filename="../../../src/log4c/buffer.h" />
+		<Unit filename="../../../src/log4c/category.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/category.h" />
+		<Unit filename="../../../src/log4c/common_time.h" />
+		<Unit filename="../../../src/log4c/config-win32.h" />
+		<Unit filename="../../../src/log4c/defs.h" />
+		<Unit filename="../../../src/log4c/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/init.h" />
+		<Unit filename="../../../src/log4c/layout.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/layout.h" />
+		<Unit filename="../../../src/log4c/layout_type_basic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/layout_type_basic.h" />
+		<Unit filename="../../../src/log4c/layout_type_basic_r.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/layout_type_basic_r.h" />
+		<Unit filename="../../../src/log4c/layout_type_dated.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/layout_type_dated.h" />
+		<Unit filename="../../../src/log4c/layout_type_dated_r.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/layout_type_dated_r.h" />
+		<Unit filename="../../../src/log4c/location_info.h" />
+		<Unit filename="../../../src/log4c/logging_event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/logging_event.h" />
+		<Unit filename="../../../src/log4c/priority.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/priority.h" />
+		<Unit filename="../../../src/log4c/rc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/rc.h" />
+		<Unit filename="../../../src/log4c/rollingpolicy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/rollingpolicy.h" />
+		<Unit filename="../../../src/log4c/rollingpolicy_type_sizewin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/rollingpolicy_type_sizewin.h" />
+		<Unit filename="../../../src/log4c/version.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/log4c/version.h" />
+		<Unit filename="../../../src/sd/defs.h" />
+		<Unit filename="../../../src/sd/error.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/error.h" />
+		<Unit filename="../../../src/sd/factory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/factory.h" />
+		<Unit filename="../../../src/sd/hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/hash.h" />
+		<Unit filename="../../../src/sd/list.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/list.h" />
+		<Unit filename="../../../src/sd/malloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/malloc.h" />
+		<Unit filename="../../../src/sd/sprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/sprintf.h" />
+		<Unit filename="../../../src/sd/sprintf.osf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/stack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sd/stack.h" />
+		<Unit filename="../../../src/xml-parser/domnode-xml-parser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/xml-parser/domnode-xml-parser.h" />
+		<Unit filename="../../../src/xml-parser/domnode-xml-scanner.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/xml-parser/domnode-xml-scanner.h" />
+		<Unit filename="../../../src/xml-parser/domnode-xml.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/xml-parser/domnode-xml.h" />
+		<Unit filename="../../../src/xml-parser/domnode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/xml-parser/domnode.h" />
+		<Unit filename="../../../src/xplatform/platform-win32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/xplatform/platform-win32.h" />
+		<Unit filename="../../../src/xplatform/platform-wince.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/xplatform/platform-wince.h" />
+		<Unit filename="../../../src/xplatform/xplatform.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/xplatform/xplatform.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
