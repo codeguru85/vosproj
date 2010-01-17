@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="400" height="250"
+	 showCloseButton="true" close="this.closeThis()">
+<mx:RemoteObject id="termService" destination="termService" showBusyCursor="true">
+	<mx:method name="addTermType" result="addTermTypeHandle(event)"/>
+</mx:RemoteObject>
+ <mx:Script>
+ 	<![CDATA[
+ 		import mx.rpc.events.ResultEvent;
+ 		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		import mx.rpc.events.FaultEvent;
+		import dto.security.client.TermType;
+ 	
+ 		public var fatherFunc:Function=null;
+ 		//增加类型时的校验标志
+		private var addTermTypeBoolean:Boolean = true;
+ 		
+ 		private function closeThis():void
+ 		{
+			PopUpManager.removePopUp(this);
+			fatherFunc();
+		}
+		private function addTermType():void
+		{
+			if(!addTermTypeBoolean)
+			{
+				Alert.show("对不起，您的输入有误请检查");
+				addTermTypeBoolean = true;
+			}
+			else
+			{
+				var typeForAdd:TermType = new TermType();
+				typeForAdd.typeName = clientName.text;
+				typeForAdd.descn = clientDec.text;
+	 			termService.addTermType(typeForAdd);
+ 			}
+		}
+		private function addTermTypeHandle(event:ResultEvent):void
+		{
+			var typeForAddHandle:TermType = event.result as TermType;
+			Alert.show(typeForAddHandle.typeName+"增加成功！");
+			fatherFunc();
+			closeThis();
+		}
+ 	]]>
+ </mx:Script>
+	<mx:VBox width="100%" height="100%">
+		<mx:Form>
+			<mx:FormHeading label="终端类别信息"/>
+			<mx:FormItem label="名称：">
+				<mx:TextInput id="clientName" maxChars="40" />
+			</mx:FormItem>
+			<mx:FormItem  label="描述：">
+				<mx:TextArea  id="clientDec" height="85" maxChars="128"/>
+			</mx:FormItem>
+			<mx:FormItem>
+				<mx:HBox>
+					<mx:Button id="addBut" label="确定" click="addTermType();"/>
+					<mx:Button label="取消" click="closeThis();"/>
+				</mx:HBox>
+			</mx:FormItem>
+		</mx:Form>
+	</mx:VBox>
+	
+	<mx:StringValidator source="{clientName}" property="text" 
+	required="true" requiredFieldError="类型名称不能为空"  
+	trigger="{addBut}" triggerEvent="mouseDown" 
+	minLength="1" 
+	invalid="addTermTypeBoolean=false"/>	
+</mx:TitleWindow>

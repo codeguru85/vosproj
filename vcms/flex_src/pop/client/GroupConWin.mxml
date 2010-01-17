@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="util.cpt.*" xmlns:ns1="com.yahoo.astra.mx.controls.*" 
+	x="{this.parentApplication.width*0.1}" 
+	y="{this.parentApplication.height*0.05}" 
+	width="{this.parentApplication.width*0.8}" 
+	height="{this.parentApplication.height*0.9}" 
+	title="群组终端控制" showCloseButton="true" 
+	close="PopUpManager.removePopUp(this);"
+	 verticalAlign="middle" layout="vertical" verticalScrollPolicy="off">
+<mx:Script source="as/groupConWin.as"/>
+
+	<mx:VBox width="100%" height="92%">
+		<mx:ControlBar width="100%" height="10%">
+			<mx:Label text="选择当前群组："/>
+			<mx:ComboBox close="closeHandler(event);">
+				<mx:String>group1</mx:String>
+				<mx:String>group2</mx:String>
+			</mx:ComboBox>
+			<mx:Spacer width="100%"/>
+			<mx:ButtonBar itemClick="groupHandler(event);" toolTip="对整个群组所有终端进行控制">
+				<mx:String>群组唤醒</mx:String>
+				<mx:String>群组休眠</mx:String>
+			</mx:ButtonBar>
+			<mx:ButtonBar itemClick="termHandler(event);" toolTip="对群组内部选择终端进行控制">
+				<mx:String>终端唤醒</mx:String>
+				<mx:String>终端休眠</mx:String>
+			</mx:ButtonBar>			
+		</mx:ControlBar>
+		<mx:HBox width="100%" height="90%">
+			<mx:DataGrid id="DG" width="100%" height="100%" toolTip="当前群组终端成员列表">
+				<mx:columns>
+					<mx:DataGridColumn headerText="终端名称" dataField="termName"/>
+					<mx:DataGridColumn headerText="IP" dataField="termIp"/>
+					<mx:DataGridColumn headerText="掩码" dataField="termMask"/>
+					<mx:DataGridColumn headerText="网关" dataField="termGateway"/>
+					<mx:DataGridColumn headerText="DNS" dataField="termDns"/>
+					<mx:DataGridColumn headerText="位置" dataField="termAddr"/>
+					<mx:DataGridColumn headerText="类型" dataField="termType"/>
+					<mx:DataGridColumn headerText="是否激活"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:HBox>
+	</mx:VBox>
+	<mx:HBox width="100%" height="8%" horizontalAlign="center" verticalAlign="bottom">
+		<mx:Button label="返回" click="PopUpManager.removePopUp(this);"/>
+	</mx:HBox>
+</mx:TitleWindow>

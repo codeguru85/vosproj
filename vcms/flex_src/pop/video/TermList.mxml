@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="终端列表" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" x="190" y="290" width="756" height="332" showCloseButton="true" close="this.closeThis()">
+	<mx:Script>
+	<![CDATA[
+		import mx.events.ItemClickEvent;
+		import mx.managers.PopUpManager;
+		import mx.controls.Alert;
+		
+		//关闭窗口
+		private function closeThis():void{
+			PopUpManager.removePopUp(this);
+		}
+		
+		private function clickHandler(event:ItemClickEvent):void{
+			
+		}
+	]]>
+</mx:Script>
+<mx:VBox width="100%" height="100%">
+	<mx:ControlBar horizontalAlign="left"  width="100%" height="10%">
+ 		<mx:Label text="Ip"/>
+ 		<mx:TextInput/>
+ 		<mx:Button label="查询" click="Alert.show('查询')"/>
+ 		<mx:Spacer width="300"/>
+ 		<mx:Button label="确认下载" click="Alert.show('确认下载')"/>
+ 	</mx:ControlBar>
+	<mx:DataGrid x="0" y="22" width="734" height="242">
+		<mx:columns>
+			<mx:DataGridColumn headerText="终端名称" dataField="typeName"/>
+			<mx:DataGridColumn headerText="IP" dataField="createTime"/>
+			<mx:DataGridColumn headerText="MASK" dataField="videoNum"/>
+			<mx:DataGridColumn headerText="GateWay" dataField="videoNum"/>
+			<mx:DataGridColumn headerText="DNS" dataField="videoNum"/>
+			<mx:DataGridColumn headerText="MASK" dataField="videoNum"/>
+		</mx:columns>
+	</mx:DataGrid>
+</mx:VBox>
+</mx:TitleWindow>

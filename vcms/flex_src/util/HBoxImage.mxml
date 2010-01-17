@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+		<mx:Script>
+			<![CDATA[
+				import mx.events.FlexEvent;
+				private function fixLoadImage(event:FlexEvent):void{
+					albumListImage.load();
+				}
+			]]>
+		</mx:Script>
+		<mx:Image id="albumListImage" width="100%" height="100%" source="./{data.imagePath}" autoLoad="true" creationComplete="fixLoadImage(event);" ioError="albumListImage.source='./images/default-album.png'"/>
+		<mx:Label width="100" text="{data.albumName}  ({data.videoNum})" toolTip="{data.albumName}"/>
+</mx:VBox>

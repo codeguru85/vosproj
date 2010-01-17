@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="GBK"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" horizontalAlign="right">
+<mx:Script>
+	<![CDATA[
+		import util.page.PaginationFinder;
+		import mx.events.ItemClickEvent;
+		import flash.events.KeyboardEvent;
+		import flash.ui.Keyboard;
+		
+		[Bindable]
+		public var finder:PaginationFinder;
+		
+		/**
+		* 分页显示问题信息
+		*/	
+		private function page(event:ItemClickEvent):void{
+			  var pageSize:int=pageSizeStep.value;
+			  if(event.index==0){
+			  	  this.parentDocument.getPaginations(1,pageSize);
+		      }else if(event.index==1){
+		      	  var toPage:int=finder.hasPrevious?finder.pageNo-1:1;
+		      	  this.parentDocument.getPaginations(toPage,pageSize);
+		      }else if(event.index==2){
+		      	  var toPage1:int=finder.hasNext?finder.pageNo+1:finder.totalPage;
+		      	  this.parentDocument.getPaginations(toPage1,pageSize);
+		      }else if(event.index==3){
+		      	  this.parentDocument.getPaginations(finder.totalPage,pageSize);
+		      }
+		}
+		
+		private function toPage():void{
+			finder.totalPage=finder.totalCount/pageSizeStep.value+1;
+			var tempPage:int=pageNoStep.value>finder.totalPage?finder.totalPage:pageNoStep.value;
+			this.parentDocument.getPaginations(tempPage,pageSizeStep.value);
+		}
+		
+		public function refreshPage():void{
+			finder.totalCount-=1;
+		}
+		
+		//add by zhangwensheng 2009-01-09
+		//跳转到首页
+		private function toFirstPage():void {
+			this.parentDocument.getPaginations(1, pageSizeStep.value);
+		}
+		
+		//跳转到上一页
+		private function toPreviousPage():void {
+			finder.totalPage=finder.totalCount/pageSizeStep.value+1;
+			var toPage:int = finder.hasPrevious?finder.pageNo-1:1;
+			if(toPage>finder.totalPage){
+				toPage=finder.totalPage;
+			}
+		    this.parentDocument.getPaginations(toPage, pageSizeStep.value);
+		}
+		
+		//跳转到下一页
+		private function toNextPage():void {
+			finder.totalPage=finder.totalCount/pageSizeStep.value+1;
+			var toPage1:int = finder.hasNext?finder.pageNo+1:finder.totalPage;
+			if(toPage1>finder.totalPage){
+				toPage1=finder.totalPage;
+			}
+		    this.parentDocument.getPaginations(toPage1, pageSizeStep.value);
+		}
+		
+		//跳转到末页
+		private function toLastPage():void {
+			finder.totalPage=finder.totalCount/pageSizeStep.value+1;
+			this.parentDocument.getPaginations(finder.totalPage, pageSizeStep.value);
+		}
+		
+		//响应回车事件，单击回车，跳转页面
+		private function onKeyDown(event:KeyboardEvent):void {
+			if (event.keyCode == Keyboard.ENTER) {
+				toPage();
+			}
+		}
+	]]>
+</mx:Script>
+	<mx:Label text="共{finder.totalCount}条记录  {finder.totalPage == 0 ? 0 : finder.pageNo}/{finder.totalPage} 每页显示"/>
+	<mx:NumericStepper id="pageSizeStep" minimum="1" maximum="99" value="{finder.pageSize}" keyDown="onKeyDown(event)"/>
+	<mx:Label text="条记录"/>
+	<mx:ButtonBar itemClick="page(event)">
+		<mx:dataProvider>
+            <mx:Array>
+                <mx:String>首页</mx:String>
+                <mx:String>上页</mx:String>
+                <mx:String>下页</mx:String>
+                <mx:String>末页</mx:String>
+            </mx:Array>
+        </mx:dataProvider>
+	</mx:ButtonBar>
+	<!--
+	<mx:LinkButton label="首页" enabled="{finder.hasPrevious}" click="toFirstPage()" />
+	<mx:LinkButton label="上页" enabled="{finder.hasPrevious}" click="toPreviousPage()"/>
+	<mx:LinkButton label="下页" enabled="{finder.hasNext}" click="toNextPage()"/>
+	<mx:LinkButton label="末页" enabled="{finder.hasNext}" click="toLastPage()"/>
+	-->
+	<mx:NumericStepper id="pageNoStep" value="{finder.pageNo}" minimum="1" maximum="{finder.totalPage}" keyDown="onKeyDown(event)"/>
+	<mx:Button label="跳转" styleName="blueButton" click="toPage();"/>
+</mx:HBox>

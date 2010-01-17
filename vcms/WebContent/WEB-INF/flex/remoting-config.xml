@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="remoting-service" 
+	class="flex.messaging.services.RemotingService">
+
+	<adapters>
+		<adapter-definition id="java-object" class="flex.messaging.services.remoting.adapters.JavaAdapter" default="false"/>
+		<adapter-definition id="hibernate-object" class="com.broadengate.core.flex.HibernateAdapter" default="true">
+		</adapter-definition>
+	</adapters>
+
+	<default-channels>
+		<channel ref="my-amf"/>
+	</default-channels>
+
+	<destination id="termService">
+		<properties>
+			<factory>spring</factory>
+			<source>termService</source>
+		</properties>
+	</destination>
+
+	<destination id="videoInfoService">
+		<properties>
+			<factory>spring</factory>
+			<source>videoInfoService</source>
+		</properties>
+	</destination>
+
+	<destination id="playInfoService">
+		<properties>
+			<factory>spring</factory>
+			<source>playInfoService</source>
+		</properties>
+	</destination>
+	
+	<destination id="videoTypeService">
+		<properties>
+			<factory>spring</factory>
+			<source>videoTypeService</source>
+		</properties>
+	</destination>
+	
+	<destination id="videoAlbumService">
+		<properties>
+			<factory>spring</factory>
+			<source>videoAlbumService</source>
+		</properties>
+	</destination>
+</service>

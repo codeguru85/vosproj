@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" horizontalAlign="right">
+<mx:Script>
+	<![CDATA[
+		import mx.events.ItemClickEvent;
+		import mx.controls.Alert;
+		import util.page.Finder;
+		[Bindable]
+		public var finder:Finder;			
+		/**
+		* 分页组件
+		*/
+		[Bindable]
+		private var paginationBt:Array=["首页","上页","下页","末页"];
+		
+		/**
+		* 分页显示问题信息
+		*/	
+		private function page(event:ItemClickEvent):void{
+			  if(event.index==0){
+			  	  this.parentDocument.getPaginations(1,finder.pageSize);
+		      }else if(event.index==1){
+		      	  var toPage:int=finder.hasPrevious?finder.currentPage-1:1;
+		      	  this.parentDocument.getPaginations(toPage,finder.pageSize);
+		      }else if(event.index==2){
+		      	  var toPage1:int=finder.hasNext?finder.currentPage+1:finder.totalPages;
+		      	  this.parentDocument.getPaginations(toPage1,finder.pageSize);
+		      }else if(event.index==3){
+		      	  this.parentDocument.getPaginations(finder.totalPages,finder.pageSize);
+		      }
+		}
+		
+		private function toPage():void{
+			this.parentDocument.getPaginations(pageStep.value,pageSize.text);
+		}
+		
+	  	private function topageSize():void{
+	  		if(pageSize.text=="0"||pageSize.text==""){
+	  			pageSize.text = finder.pageSize.toString();
+	  		}
+			this.parentDocument.getPagesize(pageSize.text);
+		}
+	]]>
+</mx:Script>
+	<mx:Label text="共{finder.totalRows}条记录  {finder.currentPage}/{finder.totalPages} "/>
+	<mx:Label text="每页显示"/><mx:TextInput id="pageSize" width="42" maxChars="3" text="{finder.pageSize}" restrict="0-9"/><mx:Label text="条记录"/>
+	<mx:Button label="设置" click="topageSize();"/>
+	<mx:ButtonBar dataProvider="{paginationBt}" itemClick="page(event)"/>	
+	<mx:NumericStepper id="pageStep" minimum="1" maximum="{finder.totalPages}"/><mx:Button label="跳转" click="toPage();"/>
+</mx:HBox>

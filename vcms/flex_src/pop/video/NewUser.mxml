@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="util.cpt.*" width="400" height="300" creationComplete="initApp()">
+ 	<mx:Style source="style/OSX.css"/>
+ 	<mx:Script>
+ 		<![CDATA[
+ 			import mx.events.ListEvent;
+ 			import mx.events.ItemClickEvent;
+ 			import mx.collections.ArrayCollection;
+ 			import mx.rpc.events.ResultEvent;
+ 			import mx.managers.PopUpManager;
+  			import mx.controls.Alert;
+  			import window.video.AddVideoWindow;
+  			import window.video.AddVideoType;
+  			
+  			//组件初始化
+  			private function initApp():void{
+  				for each(var item:XML in this.nav_tree.dataProvider)
+     				this.nav_tree.expandChildrenOf(item,true);
+  			}
+  			//双击相应事件
+ 			private function itemDoubleClickHandler(event:ListEvent):void{
+					videoInfo.visible=true;
+ 			}
+ 			
+ 			private function getPubtimeFormatter(row:Object,column:DataGridColumn):String{
+ 				return timeFormatter.format(row.pubTime);
+ 			}
+ 			
+ 			private function clickHandler(event:ItemClickEvent):void{
+ 				if(event.index==0){
+ 					var addVideo:AddVideoWindow =new AddVideoWindow();
+ 					PopUpManager.addPopUp(addVideo,this,true);
+ 					PopUpManager.centerPopUp(addVideo);
+ 				}else if(event.index==1){
+ 					if(VideoDG.selectedItem==null){
+ 						Alert.show("请选择一个视频","提示信息");
+ 					}else{
+ 						var editVideo:EditVideoWindow = new EditVideoWindow();
+ 						PopUpManager.addPopUp(editVideo,this,true);
+ 						PopUpManager.centerPopUp(editVideo);
+ 					}
+ 				}else if(event.index==2){
+ 					if(VideoDG.selectedItem==null){
+ 						Alert.show("请选择你要删除的视频","提示信息");
+ 					}else{
+ 						Alert.show("删除成功","提示信息");
+ 					}
+ 				}
+ 			}
+ 			
+ 			//新增分类
+ 			private function addVideoType():void{
+ 				var addVideoType:AddVideoType=new AddVideoType();
+ 				PopUpManager.addPopUp(addVideoType,this,true);
+ 				PopUpManager.centerPopUp(addVideoType);
+ 			}
+ 		]]>
+ 	</mx:Script>
+ 	<mx:XMLList id="treeData">
+        <node label="视频分类">
+            <node label="全部"/>
+            <node label="资讯"/>
+            <node label="原创"/>
+            <node label="电视剧"/>
+            <node label="娱乐"/>
+            <node label="电影"/>
+            <node label="体育"/>
+            <node label="音乐"/>
+            <node label="游戏"/>
+            <node label="动漫"/>
+            <!--<node label="时尚"/>
+            <node label="汽车"/>
+            <node label="旅游"/>
+            <node label="科技"/>
+            <node label="教育"/>
+            <node label="生活"/>
+            <node label="搞笑"/>
+            <node label="广告"/>-->
+            <node label="其他"/>
+		</node>
+    </mx:XMLList>
+     <mx:XMLList id="videoDatas">
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+            <fileSize>100MB</fileSize>
+            <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+        <videoList>
+            <title>变形金刚</title>
+            <type>电影</type>
+            <playCount>525</playCount>
+            <timeCount>122</timeCount>
+             <fileSize>100MB</fileSize>
+             <userName>kevin</userName>
+            <pubTime>2009-06-27 12:11</pubTime>
+        </videoList>
+    </mx:XMLList>
+    		<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
+			<mx:DateFormatter id="timeFormatter" formatString="YYYY-MM-DD JJ:NN"/>
+    		<mx:Parallel id="expandOut" target="{videoInfo}">
+		     	<mx:Fade id="fadeIn" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+		    	<mx:Iris id="irisOut" duration="500" showTarget="true"/>
+		    </mx:Parallel>
+		    <mx:Parallel id="expandIn" target="{videoInfo}">
+		    	<mx:Fade duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+		    	<mx:Iris id="irisIn" duration="500" showTarget="false"/>
+		    </mx:Parallel>
+			<mx:VBox width="100%" height="100%">
+				<mx:HBox width="100%" height="10%">
+					<mx:Button label="分类管理" click="this.addVideoType()"/>
+					<mx:Button label="专辑管理" click="Alert.show('删除成功')"/>
+					<mx:Spacer width="20"/>
+		 			<mx:Label text="视频标题"/>
+		 			<mx:TextInput/>
+		 			<mx:Button label="查询" click="Alert.show('查询')"/>
+		 			<mx:Button label="高级查询" click="Alert.show('高级查询')"/>
+		 			<mx:Spacer width="480"/>
+		 			<mx:ButtonBar itemClick="clickHandler(event)">
+			            <mx:dataProvider>
+			                <mx:Array>
+			                    <mx:String>新增</mx:String>
+			                    <mx:String>修改</mx:String>
+			                    <mx:String>删除</mx:String>
+			                </mx:Array>
+			            </mx:dataProvider>
+			        </mx:ButtonBar>
+		 		</mx:HBox>
+		 		<mx:HBox height="100%" width="100%">
+		 			<mx:HDividedBox width="100%" height="100%">
+					<mx:Tree id="nav_tree" height="100%" width="15%" showRoot="true" labelField="@label" dataProvider="{treeData}"></mx:Tree>
+	 				<mx:VBox width="85%" height="100%">
+	 					<mx:DataGrid id="VideoDG" dataProvider="{videoDatas}" allowMultipleSelection="true" width="100%" height="100%" editable="false" doubleClickEnabled="true" itemDoubleClick="itemDoubleClickHandler(event);">
+							<mx:columns>
+								<mx:DataGridColumn width="50" headerText="视频标题" dataField="title" editable="false" />
+								<mx:DataGridColumn headerText="所属分类" dataField="type" width="60" editable="false"/>
+								<mx:DataGridColumn headerText="点播次数" dataField="playCount" width="60"/>
+								<mx:DataGridColumn headerText="时间长" dataField="timeCount" editable="true" width="60"/>
+								<mx:DataGridColumn headerText="大小" dataField="fileSize" editable="true" width="60"/>
+								<mx:DataGridColumn headerText="上传者" dataField="userName" editable="true" width="60"/>
+								<mx:DataGridColumn headerText="发布时间" dataField="pubTime" editable="true" width="60"/>
+							</mx:columns>
+						</mx:DataGrid>
+	 				</mx:VBox>
+	 				</mx:HDividedBox>
+	 			</mx:HBox>
+	 			<mx:ControlBar width="100%" horizontalAlign="right">
+							<mc:Pagination/>
+				</mx:ControlBar>
+	 		</mx:VBox>
+	 <mx:TitleWindow title="视频详细信息" id="videoInfo" x="605" y="85" width="600" height="300" visible="false" layout="horizontal"
+ 	 	 	showEffect="{expandIn}" hideEffect="{expandOut}" close="videoInfo.visible=false;" showCloseButton="true">
+ 		 	<mx:Form width="100%" height="100%">
+ 		 		<mx:FormItem label="视频标题">
+ 		 			<mx:Label text="变形金刚"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="所属分类">
+ 		 			<mx:Label text="电影"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="状态">
+ 		 			<mx:Label text="正常"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="点播次数">
+ 		 			<mx:Label text="255"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="时间长">
+ 		 			<mx:Label text="60"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="视频描述">
+ 		 			<mx:Label text="本视频电影是最新力作sdfgsdfgsdfgsdgsdfgsdf"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="发布时间">
+ 		 			<mx:Label text="2009-06-27 12:11"/>
+ 		 		</mx:FormItem>
+ 		 	</mx:Form>
+ 	 </mx:TitleWindow>
+</mx:Canvas>

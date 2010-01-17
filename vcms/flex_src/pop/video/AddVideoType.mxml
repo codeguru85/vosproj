@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="新增分类" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="pop.video.*" layout="absolute" width="454" height="256" showCloseButton="true" creationComplete="initApp()" close="this.closeThis()">
+	<mx:RemoteObject id="videoTypeService" destination="videoTypeService" showBusyCursor="true">
+		<mx:method name="addVideoType" result="addVideoTypeHandler(event)"/>
+	</mx:RemoteObject>
+	<mx:Script>
+	<![CDATA[
+		import mx.collections.ArrayCollection;
+		import mx.controls.Alert;
+		import mx.rpc.events.ResultEvent;
+		import mx.managers.PopUpManager;
+		import dto.security.video.VideoType;
+		
+		/**
+		 * 回调函数处理更新列表数据
+		 * */
+		public var fatherFunction:Function;
+		
+		[Bindable]
+		private var videoTypes:ArrayCollection;
+		
+		private var addtype:Boolean=true;
+		
+		/**
+		 * 组件初始化调用
+		 * */
+		private function initApp():void
+		{
+		}
+		
+		/**
+		 * 关闭窗口
+		 * */
+		private function closeThis():void{
+			PopUpManager.removePopUp(this);
+		}
+		/**
+		 * 新增视频分类信息
+		 * */
+		private function addVideoType():void{
+			if(!addtype){
+				addtype = true;
+				return;
+			}else{
+				var videoType:VideoType =new VideoType();
+				var typeId:int = txtTypeId.getSelectedVideoType().typeId;
+				videoType.typeName = typeName.text;
+				videoTypeService.addVideoType(videoType,typeId);
+			}
+		}
+		/**
+		 * 新增视频分类信息响应调用
+		 * */
+		private function addVideoTypeHandler(event:ResultEvent):void{
+			if(event.result!=null){
+				Alert.show("视频分类新增成功","提示信息");
+			}
+			this.closeThis();
+			this.fatherFunction();
+		}
+	]]>
+</mx:Script>
+	<mx:Form x="42.5" width="320" height="196">
+	<mx:FormHeading label="分类信息"/>
+		<mx:FormItem label="所属分类" width="100%" height="36">
+			<mx:HBox>
+				<mc:VideoTypeCB id="txtTypeId" />
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="分类名称" width="100%" height="35" required="true">
+			<mx:HBox>
+				<mx:TextInput id="typeName" width="202"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:ControlBar width="100%" horizontalAlign="center" height="52">
+			<mx:Button id="cmdOk" label="确认" click="addVideoType()"/>
+			<mx:Button id="cmdCancel" label="取消" click="this.closeThis()"/>
+		</mx:ControlBar>
+	</mx:Form>
+	
+	<mx:StringValidator
+		source="{typeName}" property="text"
+		required="true" requiredFieldError="请输入分类名称"  		  
+		trigger="{cmdOk}" triggerEvent="mouseDown"
+		invalid="addtype=false"/>
+</mx:TitleWindow>

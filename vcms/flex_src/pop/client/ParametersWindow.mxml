@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="终端参数设置" width="350" height="170" 
+	 showCloseButton="true" close="removeWin();" creationComplete="init()">
+	<mx:RemoteObject id="termService" destination="termService" showBusyCursor="true">
+		<mx:method name="getTermTypes" result="termTypesInit(event)"/>
+	</mx:RemoteObject>
+	<mx:Script>
+		<![CDATA[
+			import dto.security.client.TermInfo;
+			import dto.security.client.TermType;
+		
+			import mx.rpc.events.*;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+			//和父页面的连接函数
+			public var fatherFunction:Function ;
+			
+			public var tempTermType:TermType=null;
+			
+			private function init():void
+			{
+				termService.getTermTypes();
+			}
+			
+			private function termTypesInit(event:ResultEvent):void
+			{
+				var tempClientTypes:ArrayCollection = event.result as ArrayCollection;
+				var tempData:Object = null;
+				var clientTypes:ArrayCollection = new ArrayCollection();
+				
+				if(tempTermType==null)
+				{
+					tempData = new Object();
+		 			tempData.label = "请选择";
+		 			tempData.data = -1;
+		 			clientTypes.addItem(tempData);
+				}
+
+				var getIndex:int=0;
+	 			for(var i:int;i<tempClientTypes.length;i++)
+	 			{
+	 				tempData = new Object();
+	 				var aClientType:TermType = tempClientTypes.getItemAt(i) as TermType;
+	 				tempData.label = aClientType.typeName;
+	 				tempData.data = aClientType.typeId;
+	 				if(tempTermType!=null)
+	 				{
+	 					if(tempTermType.typeId==aClientType.typeId)
+	 					{
+	 						getIndex=i;
+	 					}
+	 				}
+	 				clientTypes.addItem(tempData);
+	 			}
+	 			PapClientType.dataProvider=clientTypes;
+	 			PapClientType.selectedIndex=getIndex;
+			}
+			
+			private function removeWin():void{
+				PopUpManager.removePopUp(this);
+			}
+			
+			//修改
+			private function editedFunction():void{
+				var tempTermInfo:TermInfo = new TermInfo();
+				tempTermInfo.termId = PapClientId;
+				tempTermInfo.termName = PapClientName.text; 
+				
+				var termType:TermType = new TermType();
+ 				termType.typeId = PapClientType.selectedItem.data as int;
+				tempTermInfo.termType=termType;
+				
+				fatherFunction(tempTermInfo);
+				removeWin();
+			}
+		]]>
+	</mx:Script>
+	<mx:Number id="PapClientId"/>
+	<mx:HBox height="100%" width="100%">
+			<mx:Form  height="100%" width="50%">
+				<mx:FormItem width="100%" label="终端名称：" direction="horizontal">
+					<mx:TextInput id="PapClientName" maxChars="42" width="150"/>								 
+				</mx:FormItem>
+				<mx:FormItem width="100%" label="终端类型：" direction="horizontal">
+					<mx:ComboBox id="PapClientType" width="150"/>
+				</mx:FormItem>
+				<mx:FormItem width="100%" label="">
+					<mx:HBox width="85%">
+						 <mx:Button label="修改" width="50%" click="editedFunction();"/>
+						 <mx:Button label="取消" width="50%" click="removeWin();"/>	
+					</mx:HBox>
+							 
+				</mx:FormItem>
+			</mx:Form>
+		</mx:HBox>
+</mx:TitleWindow>

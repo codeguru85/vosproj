@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="util.cpt.*" xmlns:ns1="com.yahoo.astra.mx.controls.*" 
+	x="{this.parentApplication.width*0.1}" 
+	y="{this.parentApplication.height*0.05}" 
+	width="{this.parentApplication.width*0.8}" 
+	height="{this.parentApplication.height*0.9}" 
+	title="群组管理" showCloseButton="true" 
+	close="PopUpManager.removePopUp(this);"
+	 verticalAlign="middle" layout="vertical" verticalScrollPolicy="off">
+<mx:Script source="as/groupManWin.as"/>
+
+	<mx:VBox width="100%" height="92%">
+		<mx:ControlBar id="CB1" width="100%" height="10%">
+			<mx:Label text="选择当前群组："/>
+			<mx:ComboBox close="closeHandler(event);">
+				<mx:String>group1</mx:String>
+				<mx:String>group2</mx:String>
+			</mx:ComboBox>
+			<mx:ButtonBar itemClick="groupNameEdit(event)">
+				<mx:String>重命名</mx:String>
+				<mx:String>删除</mx:String>
+			</mx:ButtonBar>	
+			<mx:Button label="新建" click="addGroup()"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button label="添加终端" click="addTermHandler()"/>
+		</mx:ControlBar>
+		<mx:ControlBar id="CB2" width="100%" height="10%" includeInLayout="false" visible="false" toolTip="供拖放添加终端列表">
+			<mx:Label text="终端名称"/>
+			<mx:TextInput />
+			<mx:Button label="搜索" click="search();"/>
+			<mx:Button label="高级搜索" click="advSearch();"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button label="返回" click="selectToMain()"/>
+		</mx:ControlBar>		
+		<mx:HBox id="HB" width="100%" height="80%">
+			<mx:DataGrid id="DG1" width="100%" height="100%" toolTip="当前群组终端列表">
+				<mx:columns>
+					<mx:DataGridColumn headerText="终端名称" dataField="termName"/>
+					<mx:DataGridColumn headerText="IP" dataField="termIp"/>
+					<mx:DataGridColumn headerText="掩码" dataField="termMask"/>
+					<mx:DataGridColumn headerText="网关" dataField="termGateway"/>
+					<mx:DataGridColumn headerText="DNS" dataField="termDns"/>
+					<mx:DataGridColumn headerText="位置" dataField="termAddr"/>
+					<mx:DataGridColumn headerText="类型" dataField="termType"/>
+					<mx:DataGridColumn headerText="是否激活"/>
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:DataGrid dataProvider="{arr3}" id="DG2" width="49%" height="100%" visible="false" includeInLayout="false" 
+				toolTip="拖放选择终端列表" dragEnabled="true">
+				<mx:columns>
+					<mx:DataGridColumn headerText="终端名称" dataField="termName"/>
+					<mx:DataGridColumn headerText="IP" dataField="termIp"/>
+					<mx:DataGridColumn headerText="掩码" dataField="termMask"/>
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:DataGrid id="DG10" dataProvider="{DG1.dataProvider}" width="49%" height="100%" visible="false" 
+				includeInLayout="false" toolTip="当前群组终端列表" dropEnabled="true">
+				<mx:columns>
+					<mx:DataGridColumn headerText="终端名称" dataField="termName"/>
+					<mx:DataGridColumn headerText="IP" dataField="termIp"/>
+					<mx:DataGridColumn headerText="掩码" dataField="termMask"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:HBox>
+		<mx:HBox width="100%" height="10%" verticalAlign="bottom">
+			<mc:Page id="pageId" visible="false" includeInLayout="false"/>
+			<mx:Spacer width="100%"/>
+			<mx:ButtonBar>
+				<mx:String>删除选中项</mx:String>
+				<mx:String>删除全部</mx:String>
+			</mx:ButtonBar>			
+		</mx:HBox>
+	</mx:VBox>
+	<mx:HBox width="100%" height="8%" horizontalAlign="center">
+		<mx:ButtonBar itemClick="submit(event);">
+			<mx:String>保存</mx:String>
+			<mx:String>取消</mx:String>
+		</mx:ButtonBar>		
+	</mx:HBox>
+</mx:TitleWindow>

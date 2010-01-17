@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="util.cpt.*" width="400" height="300" creationComplete="oncreationComplete();" show="oncreationComplete();">	 
+<mx:Script source="as/playWindow.as"/>
+<mx:RemoteObject id="playInfoService" destination="playInfoService" showBusyCursor="true">
+	<mx:method name="getSelectPlay" result="getSelectPlayHandler(event);"/>
+	<mx:method name="getPlayVideo" result="getPlayVideoHandler(event);"/>
+	<mx:method name="getPlayTerm" result="getPlayTermHandler(event);"/>
+	<mx:method name="getDelPlay"/>
+	<mx:method name="updatePlayShip" result="updatePlayShipHandler(event);"/>
+	<mx:method name="stopPlay" result="stopPlayHandler(event);"/>
+	<mx:method name="startPlay" result="startPlayHandler(event);"/>
+	<mx:method name="updateStartPlay" result="updateStartPlayHandler(event);"/>
+	<!--<mx:method name="selectVideoTime" result="selectVideoTimeHandler(event);"/>-->
+</mx:RemoteObject>
+<mx:Parallel id="expandOut" target="{playMessage}">
+ 	<mx:Fade id="fadeIn" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+	<mx:Iris id="irisOut" duration="500" showTarget="true"/>
+</mx:Parallel>
+<mx:Parallel id="expandIn" target="{playMessage}">
+	<mx:Fade duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+	<mx:Iris id="irisIn" duration="500" showTarget="false"/>
+</mx:Parallel>
+<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD JJ:NN:SS"/>
+	<mx:HBox width="100%" height="100%" label="播放列表">	
+	<mx:Form width="100%" height="100%" includeInLayout="true">
+		<mx:HBox width="100%" height="10%" horizontalAlign="center">	
+			<mx:FormItem horizontalAlign="left" width="25%">
+				<mx:ButtonBar itemClick="clickHandler0(event);">
+					<mx:Array>						
+						<mx:String>滚动字幕</mx:String>
+						<mx:String>指定下载</mx:String>
+						<!--<mx:String>网页浏览</mx:String>-->
+					</mx:Array>
+				</mx:ButtonBar>
+			</mx:FormItem>
+			<mx:FormItem horizontalAlign="center" width="25%">
+				<mx:ButtonBar id="playBar" itemClick="clickHandler(event)">
+					<mx:Array>						
+						<!--mx:String>插播</mx:String-->	
+						<mx:String>立即播放</mx:String>					
+						<mx:String>暂停</mx:String>
+						<mx:String>继续播放</mx:String>
+						
+					</mx:Array>
+				</mx:ButtonBar>
+			</mx:FormItem>
+			<mx:FormItem width="50%" horizontalAlign="center">
+				<mx:HBox width="100%">
+					<mx:FormItem label="任务标题:">
+						<mx:TextInput id="listname"/>	
+					</mx:FormItem>
+					<mx:Button label="查询" click="getPaginations(1,20);"/>
+					<mx:Label width="5%"/>
+					<mx:Button label="高级查询" click="tallselect();"/>
+					<!--<mx:Label width="15%"/>
+					<mx:Button label="指定下载"/>-->
+				</mx:HBox>
+			</mx:FormItem>
+			<mx:FormItem horizontalAlign="right" width="20%">
+				<mx:ButtonBar itemClick="clickvideoHandler(event);">
+					<mx:Array>						
+						<mx:String>新增</mx:String>
+						<mx:String>更新</mx:String>
+						<mx:String>删除</mx:String>
+					</mx:Array>
+				</mx:ButtonBar>
+			</mx:FormItem>	
+			<mx:Button label="刷新" click="regetPlay()"/>							
+		</mx:HBox>		
+					
+		<mx:HDividedBox id="playListsBox" width="100%" height="80%">	
+			<mx:DataGrid id="videolists" width="100%" dataProvider="{playlists.list}" rowCount="9" height="100%" itemClick="selectedHandler(event);" doubleClickEnabled="true" itemDoubleClick="clickMessage(event)" verticalScrollPolicy="on" allowMultipleSelection="true">
+				<mx:columns>
+					<!--mx:DataGridColumn dataField="listId" headerText="编号"/-->
+					<mx:DataGridColumn dataField="listName" headerText="任务标题"/>
+					<mx:DataGridColumn dataField="startTime" headerText="开始时间" labelFunction="getStartTime"/>	
+					<mx:DataGridColumn dataField="endTime" headerText="结束时间" labelFunction="getEndTime"/>
+					<mx:DataGridColumn dataField="createTime" headerText="创建时间" labelFunction="getCreageTime"/>
+					<mx:DataGridColumn dataField="videoNum" headerText="视频个数"/>
+					<!--mx:DataGridColumn dataField="" headerText="终端个数"/-->			
+					<!--<mx:DataGridColumn dataField="playState" headerText="是否在播放" labelFunction="getPlayState"/>-->
+				</mx:columns>				
+			</mx:DataGrid>			
+			<mx:HBox  id="playMessage" height="100%" resizeEffect="fade" visible="false" includeInLayout="false">						    		
+				<mx:Image id="closeIcon" source="./images/closeInfo.png" click="closeHandler()" verticalAlign="top" toolTip="隐藏详细信息"/>	
+				
+				<mx:VBox width="97%" height="100%">
+					<!--mx:Label id="playMessageName" textAlign="center"/-->
+					<mx:DataGrid id="termlist"  dataProvider="{playterm}" width="100%" height="40%">
+						<mx:columns>
+							<mx:DataGridColumn dataField="termName" headerText="终端"/>	
+							<mx:DataGridColumn dataField="termIp" headerText="IP地址"/>										
+						</mx:columns>
+					</mx:DataGrid>	
+					<mx:DataGrid id="readlist" width="100%" height="60%" dataProvider="{playvideo}">
+						<mx:columns>
+							<mx:DataGridColumn dataField="videoName" headerText="视频"/>	
+							<mx:DataGridColumn dataField="timeCount" headerText="时长"/>		
+							<mx:DataGridColumn dataField="setTime" headerText="开始时间"/>						
+						</mx:columns>
+					</mx:DataGrid>					
+				</mx:VBox>
+			</mx:HBox>
+		</mx:HDividedBox>
+				
+		<mx:ControlBar width="100%" height="10%" horizontalAlign="right">			
+			<mc:Page  finder="{playlists}"/>
+			<!--<mx:Label width="10%"/>		
+			<mx:Image id="image" source="@Embed('images/192.png')" dragDrop="imageDrop(event);" dragEnter="imageEnter(event);" maxWidth="60" maxHeight="50"/>-->
+		</mx:ControlBar>			
+	</mx:Form>	
+	</mx:HBox>	
+	
+	<!--<mx:TitleWindow id="playMessage" title="播放列表详细信息" layout="absolute" xmlns:mc="util.cpt.*" width="490" height="400" visible="false" left="0" top="0"
+		showCloseButton="true" close="playMessage.visible=false" showEffect="{expandIn}" hideEffect="{expandOut}" includeInLayout="true" horizontalAlign="right">
+	<mx:Form width="100%" height="100%" includeInLayout="true" x="4" y="4">
+	<mx:HBox width="100%" height="100%">
+		<mx:DataGrid id="termlist"  dataProvider="{playterm}" width="200" height="100%" rowCount="10">
+			<mx:columns>
+				<mx:DataGridColumn dataField="termName" headerText="终端"/>									
+			</mx:columns>
+		</mx:DataGrid>	
+		<mx:DataGrid id="readlist" width="200" height="100%" rowCount="10" dataProvider="{playvideo}">
+			<mx:columns>
+				<mx:DataGridColumn dataField="videoName" headerText="视频"/>									
+			</mx:columns>
+		</mx:DataGrid>	
+		<mx:Form id="videomessage" width="260" height="100%" borderStyle="solid" backgroundColor="#FFFFFF" includeInLayout="true">
+			<mx:TextInput id="vodeoid" visible="false"/>
+			<mx:FormItem width="100%">
+				<mx:Image id="picture" width="80" height="80"/>
+			</mx:FormItem>			
+			<mx:FormItem label="视频标题:">
+				<mx:Label id="videoname"/>
+			</mx:FormItem>
+			<mx:FormItem label="大小:">
+				<mx:HBox width="100%">
+					<mx:Label id="filesize"/>
+					<mx:Label text="MB"/>					
+				</mx:HBox>
+			</mx:FormItem>
+			<mx:FormItem label="时长:">
+				<mx:Label id="timecount"/>
+			</mx:FormItem>
+			<mx:FormItem label="上传者:">
+				<mx:Label id="userinfo"/>
+			</mx:FormItem>
+			<mx:FormItem label="发布时间:">
+				<mx:Label id="createtime"/>
+			</mx:FormItem>
+			<mx:FormItem label="设置播放时间:">
+				<mx:Label id="videotime"/>
+			</mx:FormItem>
+			<mx:Button label="关闭" id="closeBt" click="closeWindows();"/>
+		</mx:Form>				
+	</mx:HBox>		
+	</mx:Form>		
+</mx:TitleWindow-->
+</mx:Canvas>
