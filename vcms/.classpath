@@ -80,23 +80,25 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts2-spring-plugin-2.1.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xml-apis-1.0.b2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xwork-2.1.2.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/annotations-api.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/catalina.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/catalina-ant.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/catalina-ha.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/catalina-tribes.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/el-api.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/jasper.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/jasper-el.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/jasper-jdt.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/tomcat-coyote.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/tomcat-dbcp.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/tomcat-i18n-es.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/tomcat-i18n-fr.jar"/>
-	<classpathentry kind="lib" path="D:/tomcat6/lib/tomcat-i18n-ja.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/quartz-all-1.6.5.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.6.0_06"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_11"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/jasper-jdt.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/ojdbc14-10g2.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="D:/Work/apache-tomcat-6.0.16/lib/tomcat-i18n-ja.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
