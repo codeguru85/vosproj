@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" creationComplete="onCreationComplete();">
+	<mx:Script>
+		<![CDATA[
+			import dto.security.video.VideoType;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			private var videoTypes:ArrayCollection;
+			public var indexSet:int=-1;
+			
+			/**
+			 * 初始化组件调用
+			 * */
+			public function onCreationComplete():void
+			{
+				videoTypeService.getRootVideoTypes();
+			}
+			/**
+			 * 查询顶级分类信息
+			 * */
+			private function getRootVideoTypesHandler(event:ResultEvent):void{
+				
+				var arrayTemp:ArrayCollection=event.result as ArrayCollection;
+				var videoType:VideoType = new VideoType();
+				
+				videoType.typeName="顶级分类";
+				videoType.typeId=-1;
+				videoType.videoNum=0;
+				arrayTemp.addItemAt(videoType,0);
+				videoTypes=arrayTemp;
+				
+				setSelectIndex(videoTypes);
+			}
+			/**
+			 * 获得所选分类信息
+			 * */
+			public function getSelectedVideoType():VideoType{
+				return txtTypeId.selectedItem as VideoType;
+			}
+			
+			/**
+			 * 获得所选分类信息
+			 * */
+			public function getSelectIndex(newIndex:int):void{
+				indexSet = newIndex;
+			}
+			
+			/**
+			 * 设置所选分类信息
+			 * */
+			private function setSelectIndex(newVideoType:ArrayCollection):void{
+				for(var i:int=0;i<newVideoType.length;i++){
+					if(indexSet==parseInt(Object(newVideoType.getItemAt(i)).typeId)){
+						txtTypeId.selectedIndex = i;
+					}
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:RemoteObject id="videoTypeService" destination="videoTypeService" showBusyCursor="true">
+		<mx:method name="getRootVideoTypes" result="getRootVideoTypesHandler(event)"/>
+	</mx:RemoteObject>
+	<mx:ComboBox id="txtTypeId" dataProvider="{videoTypes}" labelField="typeName"/>
+</mx:HBox-->
+<mx:ComboBox width="100%"  xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="initComponent();"> 
+<mx:Script> 
+    <![CDATA[ 
+           import mx.events.FlexEvent;  
+           [Bindable]  
+           public var _label:String;  
+           [Bindable]  
+           public var treeSelectedItem:Object; 
+
+
+           public function initComponent():void 
+           { 
+             
+           } 
+                         
+           public function updateLabel(event:*):void{   
+                    _label = String(event.currentTarget.selectedItem.@label).split(' ')[0];      
+                    treeSelectedItem = event.currentTarget.selectedItem;  
+           }  
+            
+           override protected function updateDisplayList(unscaledWidth:Number, 
+                                                  unscaledHeight:Number):void 
+            { 
+                super.updateDisplayList(unscaledWidth, unscaledHeight);   
+                 
+                if(dropdown && _label != null){    
+                    text = _label;  
+                }  
+            } 
+
+
+              
+    ]]> 
+</mx:Script> 
+    <mx:dropdownFactory> 
+      <mx:Component>  
+        <mx:Tree creationComplete="initTree()" change="outerDocument.updateLabel(event)" showRoot="true" height="250" width="100%"> 
+         <mx:Script> 
+                <![CDATA[ 
+                public function initTree():void { 
+                    var len:int=super.dataProvider.length; 
+                    for(var i:int;i<len;i++) 
+                    { 
+                        super.expandChildrenOf(super.dataProvider[i], true); 
+                    } 
+                    super.selectedItem=outerDocument.treeSelectedItem; 
+                    
+                } 
+                ]]> 
+            </mx:Script> 
+        </mx:Tree> 
+     </mx:Component> 
+    </mx:dropdownFactory> 
+</mx:ComboBox> 
+

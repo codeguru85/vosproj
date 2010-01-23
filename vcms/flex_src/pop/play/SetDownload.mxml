@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="util.cpt.*" xmlns:ns1="com.yahoo.astra.mx.controls.*" 
+	x="{this.parentApplication.width*0.1}" 
+	y="{this.parentApplication.height*0.05}" 
+	width="{this.parentApplication.width*0.8}" 
+	height="{this.parentApplication.height*0.9}" 
+	showCloseButton="true" title="指定下载视频和终端设置" 
+	close="PopUpManager.removePopUp(this);" creationComplete="oncreationComplete();" xmlns:info="util.info.*">
+<mx:Script source="as/SetDownloadAs.as"/>
+<mx:RemoteObject id="playInfoService" destination="playInfoService" showBusyCursor="true">
+	<mx:method name="getSelectTerm" result="getSelectTermHandler(event);"/>
+	<mx:method name="getSelectVideo" result="getVideoInfoHandler(event);"/>
+	<mx:method name="getVideoTypes" result="getVideoInfoHandler(event);"/>
+	<mx:method name="pushDownload" result="pushDownloadHandler(event);"/>
+	<mx:method name="getTreeVideoAlbum" result="getTreeVideoAlbumHandler(event)"/>
+</mx:RemoteObject>
+<mx:RemoteObject id="videoTypeService" destination="videoTypeService" showBusyCursor="true">
+	<mx:method name="getTreeVideoType" result="getTreeVideoTypeHandler(event)"/>
+</mx:RemoteObject>
+<mx:RemoteObject id="videoInfoService" destination="videoInfoService" showBusyCursor="true">
+	<mx:method name="getAlbumVideoInfo" result="getAlbumVideoInfoHandler(event)"/>
+	<mx:method name="getAlbumVideoInfo3" result="getAlbumVideoInfo3Handler(event)"/>
+</mx:RemoteObject>
+<mx:RemoteObject id="videoAlbumService" destination="videoAlbumService" showBusyCursor="true">
+	<mx:method name="getPageVideoAlbum" result="getPageVideoAlbumsHandler(event)"/>	
+</mx:RemoteObject>	
+    <mx:DateFormatter id="timeFormatter" formatString="YYYY-MM-DD JJ:NN"/>
+	<mx:Parallel id="expandOut">
+     	<mx:Fade id="fadeIn" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+    	<mx:Iris id="irisOut" duration="500" showTarget="true"/>
+    </mx:Parallel>
+    <mx:Parallel id="expandIn">
+    	<mx:Fade duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+    	<mx:Iris id="irisIn" duration="500" showTarget="false"/>
+    </mx:Parallel>
+	<mx:ViewStack id="downloadVS" width="100%" height="93%" creationPolicy="all">
+		<mx:VBox id="VB1" width="100%" height="100%">
+			<mx:HBox id="queryVideoBox" height="10%" width="100%" verticalAlign="middle">
+				<mx:Label text="视频标题"/>
+	 			<mx:TextInput id="videoname" width="150" maxChars="20"/>
+	 			<mx:Button label="查询" click="queryInfoByName(1,20);"/>
+			</mx:HBox>
+			<mx:HBox id="queryAlbumBox" height="10%" width="100%" verticalAlign="middle" includeInLayout="false" visible="false">
+				<mx:Label text="专辑名称"/>
+	 			<mx:TextInput id="albumname" width="150" maxChars="20"/>
+	 			<mx:Button label="查询" click="queryInfoByName(1,20);"/>
+			</mx:HBox>
+	 		<mx:HDividedBox width="100%" height="100%">
+	 		<mx:TabNavigator  id="treeTab" tabWidth="76" width="20%" height="100%" change="changeHandler()" >
+	 			<mx:VBox label="视频分类" show="getTreeVideoType()">
+						<mx:Tree id="type_tree" dataProvider="{videoTypeTree}" height="100%" width="100%" showRoot="true" labelField="@label"
+							 change="getReadFile(event);"/>							 					
+	 			</mx:VBox>
+	 			<mx:VBox label="视频专辑" show="getTreeVideoAlbum()">
+						<mx:Tree id="album_tree" itemClick="getChangeAlbumHander(event)" height="100%" width="100%" showRoot="true" labelField="@label" dataProvider="{videoAlbumTree}"></mx:Tree>		 					
+ 				</mx:VBox>	
+	 		</mx:TabNavigator>
+	 		
+	 		<mx:ViewStack id="viewVS" width="80%" height="100%">	
+		 		<mx:HBox id="videoWindow" width="100%" height="100%">
+		 			<mx:DataGrid id="VideoOneDG" dataProvider="{videoList.list}" toolTip="鼠标左键拖放视频至右侧列表" width="100%" height="100%" 
+ 						allowMultipleSelection="true" dragEnabled="true" doubleClickEnabled="true" 
+ 						itemDoubleClick="videoOneDBClick();">
+						<mx:columns>
+						<mx:DataGridColumn headerText="缩略图" width="102" textAlign="center">
+							<mx:itemRenderer >
+								<mx:Component>
+									<mx:VBox horizontalCenter="center" verticalCenter="center">
+										<mx:Image id="videoImage" width="102" height="71"  source="./{data.imagePath}" ioError="videoImage.source='./images/Default_Video_Image.jpg'"/>
+									</mx:VBox>
+								</mx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+						<mx:DataGridColumn headerText="视频标题" dataField="videoName"/>
+						<mx:DataGridColumn headerText="所属分类" dataField="TypeName" sortable="false" labelFunction="getVideoTypesTypeName"/>
+						<mx:DataGridColumn headerText="时间长" dataField="timeCount"/>
+						<mx:DataGridColumn headerText="大小" dataField="fileSize" labelFunction="getFormatFileSize" />
+					</mx:columns>
+					</mx:DataGrid> 
+		 		</mx:HBox>
+		 		<mx:HBox id="albumWindow" width="100%" height="100%" includeInLayout="false" visible="false">
+		 			<mx:TileList id="albumtilelist" dataProvider="{albumlist.list}" verticalAlign="middle" height="100%" width="100%" columnCount="6" rowCount="3" rowHeight="108" columnWidth="105"
+						 dragEnabled="true" allowMultipleSelection="true" itemDoubleClick="getAlbumVideos(event);" doubleClickEnabled="true" toolTip="鼠标左键拖放专辑至右侧列表">	
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:VBox width="100%" height="100%">
+										<mx:Script>
+										<![CDATA[
+											import mx.events.FlexEvent;
+											private function fixLoadImage(event:FlexEvent):void{
+												picture.load();
+											}
+										]]>
+										</mx:Script>
+										<mx:Image id="picture" creationComplete="fixLoadImage(event);" width="100%" height="100%" source="./{data.imagePath}"  toolTip="{data.albumName}" autoLoad="true" horizontalAlign="center" ioError="picture.source='./images/default-album.png'"/>
+										<mx:Label width="80" text="{data.albumName}  ({data.videoNum})"/>
+									</mx:VBox>
+								</mx:Component>
+							</mx:itemRenderer>
+						</mx:TileList>
+						
+		 		</mx:HBox>	
+ 			</mx:ViewStack>	
+ 								
+ 				<mx:DataGrid id="VideoTwoDG" toolTip="选取视频列表" width="20%" height="100%" allowMultipleSelection="true" dropEnabled="true"
+ 					 doubleClickEnabled="true" itemDoubleClick="videoTwoDBClick()" dragEnter="judgeVideoExist()" dragDrop="doDragDrop(event);">
+ 					<mx:columns>
+ 						<mx:DataGridColumn headerText="视频标题" dataField="videoName"/>
+ 					</mx:columns>
+ 				</mx:DataGrid>
+ 			</mx:HDividedBox>
+ 			<mx:HBox width="100%">
+	 			<mx:ControlBar width="80%" horizontalAlign="right">
+					<mc:Page  finder="{videoList}" id="page"/>
+				</mx:ControlBar>
+				<mx:Spacer width="100%"/>
+				<mx:ButtonBar itemClick="delVideoHandler(event)">
+					<mx:Array>
+						<mx:String>删除选中项</mx:String>
+						<mx:String>删除全部</mx:String>
+					</mx:Array>
+				</mx:ButtonBar>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:VBox id="VB2" width="100%" height="100%">
+			<mx:HBox width="100%" height="5%" verticalAlign="middle">
+				<mx:CheckBox id="termGroupChk" selected="false" label="显示终端群组" click="showTermGroup();"/>
+				<mx:Label text="终端名称"/>
+				<mx:TextInput id="termname" maxChars="20"/>
+				<mx:Label text="终端IP"/>
+				<ns1:IPv4AddressInput id="termip"/>
+				<mx:Label text="地址"/>
+				<mx:TextInput id="termaddr"/>
+				<mx:Button label="查询" click="getPaginations(1,20)"/>
+			</mx:HBox>
+				<mx:VDividedBox width="100%" height="95%">
+				<mx:HDividedBox id="DGHB" width="100%" height="45%" horizontalAlign="right">
+					<mx:DataGrid id="termGroup" width="0" height="100%" includeInLayout="false">
+						<mx:columns>
+							<mx:DataGridColumn headerText="群组"/>
+						</mx:columns>
+					</mx:DataGrid>
+					<mx:DataGrid id="TermOneDG" dataProvider="{termList.list}" toolTip="鼠标左键拖放选项至下面列表" width="100%" height="100%" dragEnabled="true" 
+						allowMultipleSelection="true" doubleClickEnabled="true" itemDoubleClick="termOneDbClick()">
+						<mx:columns>
+							<mx:DataGridColumn headerText="终端名称" dataField="termName"/>
+							<mx:DataGridColumn headerText="终端IP" dataField="termIp"/>
+							<mx:DataGridColumn headerText="终端地址" dataField="termAddr"/>
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:HDividedBox>
+				<mx:ControlBar width="100%" height="5%" horizontalAlign="right">
+					<mc:Page  finder="{termList}"/>
+				</mx:ControlBar>
+				<mx:DataGrid id="TermTwoDG" toolTip="选取终端列表" width="100%" height="45%" dropEnabled="true" allowMultipleSelection="true"
+					 doubleClickEnabled="true" itemDoubleClick="termTwoDbClick()" dragEnter="judgeTermExist()">
+					<mx:columns>
+						<mx:DataGridColumn headerText="终端名称" dataField="termName"/>
+						<mx:DataGridColumn headerText="终端IP" dataField="termIp"/>
+					</mx:columns>
+				</mx:DataGrid>
+				</mx:VDividedBox>
+				<mx:HBox width="100%" height="5%" horizontalAlign="right" verticalAlign="middle">
+					<mx:ButtonBar itemClick="delTermHandler(event)">
+						<mx:Array>
+							<mx:String>删除选中项</mx:String>
+							<mx:String>删除全部</mx:String>
+						</mx:Array>
+					</mx:ButtonBar>
+				</mx:HBox>
+		</mx:VBox>
+	</mx:ViewStack>
+	<mx:HBox width="100%" height="5%" horizontalAlign="right">
+		<mx:ButtonBar id="btnbar" itemClick="btnbarHandler(event)">
+			<mx:Array>
+				<mx:String>上一步</mx:String>
+				<mx:String>下一步</mx:String>
+				<mx:String>确定</mx:String>	
+				<mx:String>取消</mx:String>		
+			</mx:Array>
+		</mx:ButtonBar>
+	</mx:HBox>
+	<info:VideoInfoBox id="videoInfo" showEffect="{expandIn}" hideEffect="{expandOut}"/>
+	 <!--mx:TitleWindow title="视频详细信息" id="videoInfo" 
+	 	 width="{this.parentApplication.width*0.3}" height="{this.parentApplication.height*0.45}" visible="false" layout="horizontal"
+ 	 	 	showEffect="{expandIn}" hideEffect="{expandOut}" close="videoInfo.visible=false;" showCloseButton="true"
+ 	 	 	 includeInLayout="false">
+ 		 	<mx:Form width="100%" height="100%">
+ 		 		<mx:FormItem label="视频标题">
+ 		 			<mx:Label id="labVideoName"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="所属分类">
+ 		 			<mx:Label id="labTypeName"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="时间长">
+ 		 			<mx:Label id="labTimeCount"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="大小">
+ 		 			<mx:HBox>
+						<mx:Label id="labFileSize"/>
+						<mx:Label text="MB"/> 		 				
+ 		 			</mx:HBox>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="格式:">
+	 		 			<mx:Label id="labFileFormat"/>
+	 		 		</mx:FormItem>
+				<mx:FormItem label="上传时间">
+ 		 			<mx:Label id="labCreateTime"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="视频描述">
+ 		 			<mx:Label id="labVideoDesc"/>
+ 		 		</mx:FormItem>
+ 		 	</mx:Form>
+ 	 </mx:TitleWindow-->
+ 	 <info:TermInfoBox id="termInfo" showEffect="{expandIn}" hideEffect="{expandOut}"/>
+	 <!--mx:TitleWindow title="终端详细信息" id="termInfo" 
+	 	width="{this.parentApplication.width*0.3}" height="{this.parentApplication.height*0.3}" visible="false" layout="horizontal"
+ 	 	 	showEffect="{expandIn}" hideEffect="{expandOut}" close="termInfo.visible=false;" showCloseButton="true"
+ 	 	 	 includeInLayout="false">
+ 		 	<mx:Form width="100%" height="100%">
+ 		 		<mx:FormItem label="终端名称">
+ 		 			<mx:Label id="termName"/>
+ 		 		</mx:FormItem>
+ 		 		<mx:FormItem label="终端IP">
+ 		 			<mx:Label id="termIp"/>
+ 		 		</mx:FormItem>
+ 		 	</mx:Form>
+ 	 </mx:TitleWindow-->
+</mx:TitleWindow>

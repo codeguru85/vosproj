@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="视频高级查询快捷窗口" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ns1="util.*"  creationComplete="initApp()" showCloseButton="true"  close="this.closeThis()"  width="610" height="320">
+<mx:RemoteObject id="videoInfoService" destination="videoInfoService" showBusyCursor="true">
+ 		<mx:method name="getMoreVideoInfo" result="getMoreVideoInfoHandler(event)"/>
+</mx:RemoteObject>
+<mx:Script>
+	<![CDATA[
+		import mx.collections.ArrayCollection;
+		[Bindable]
+		public var fileFormats:ArrayCollection = new ArrayCollection([
+		 {label:"请选择",data:"all"},
+		 {label:"MPG",data:"mpg"},
+		 {label:"MP4",data:"mp4"},
+		 {label:"WMV",data:"wmv"},
+		 {label:"AVI",data:"avi"},
+		 {label:"MKV",data:"mkv"},
+		 {label:"MOV",data:"mov"},
+		 {label:"VOB",data:"vob"}
+		]
+		);
+		
+		/**
+		 * 回调函数
+		 * */
+		public var fatherFunction:Function;
+	]]>
+</mx:Script>
+<mx:Script source="as/queryVideoInfo.as"/>
+<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
+<mx:DateFormatter id="timeFormatter" formatString="YYYY-MM-DD JJ:NN:SS"/>
+			<mx:Form width="100%" height="100%">
+				<mx:VBox width="100%">
+					<mx:FormItem width="100%" label="视频标题：" direction="horizontal">
+								<mx:TextInput id="txtVideoName" />
+					</mx:FormItem>
+					<mx:FormItem width="100%" label="视频格式：" direction="horizontal">
+								<mx:ComboBox id="comVideoFormat" dataProvider="{fileFormats}"/>
+								<!--<mx:TextInput id="txtVideoFormat" />-->
+					</mx:FormItem>
+					<mx:FormItem width="100%" label="时间长度：" direction="horizontal">
+								<mx:TextInput id="txtStartTime"  width="70" restrict="0-9." />
+								<mx:Label text="--"/>
+								<mx:TextInput id="txtEndTime"  width="70" restrict="0-9."/>
+								<mx:Label text="分钟"/>
+					</mx:FormItem>
+					<mx:FormItem width="100%" label="文件大小：" direction="horizontal">
+								<mx:TextInput id="txtStartSize"  width="70" restrict="0-9."/>
+								<mx:Label text="--"/>
+								<mx:TextInput id="txtEndSize"  width="70" restrict="0-9."/>
+								<mx:Label text="MB"/>
+					</mx:FormItem>
+					<mx:FormItem width="100%" label="上传时间：" direction="horizontal">
+								<mx:DateField id="txtstartDate" formatString="YYYY-MM-DD" minYear="2005" maxYear="2030" dayNames="['日', '一', '二', '三', '四', '五', '六']" monthNames="['一月', '二月', '三月', '四月', '五月','六月', '七月', '八月', '九月', '十月', '十一月', '十二月']" yearNavigationEnabled="true"/>
+								<ns1:TimeInputEx  id="startTimes" width="100"/>
+								<mx:Label text="--"/>
+								<mx:DateField id="txtendDate" formatString="YYYY-MM-DD" minYear="2005" maxYear="2030" dayNames="['日', '一', '二', '三', '四', '五', '六']" monthNames="['一月', '二月', '三月', '四月', '五月','六月', '七月', '八月', '九月', '十月', '十一月', '十二月']" yearNavigationEnabled="true"/>
+								<ns1:TimeInputEx  id="endTimes" width="100"/>
+					</mx:FormItem>			
+					<mx:FormItem width="100%" label="关键字：" direction="horizontal">
+								<mx:TextInput id="keyWords" toolTip="关键字以,分隔"/>	
+								<mx:Label text="例如：关键字1，关键字2" color="red"/>			
+					</mx:FormItem>
+				</mx:VBox>
+				<mx:ControlBar width="100%" horizontalAlign="center" height="53">
+					<mx:Button id="cmdOk" label="查询" click="getQueryVideoInfo()"/>
+					<mx:Button id="cmdCancel" label="取消" click="this.closeThis()"/>
+				</mx:ControlBar>
+	        </mx:Form>
+</mx:TitleWindow>

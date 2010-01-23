@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	<mx:TabNavigator width="100%" height="100%">
+		<mx:VBox width="100%" height="100%" label="菜单">
+			
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%" label="路径URL">
+			
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%" label="组件">
+			
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%">
+			
+		</mx:VBox>
+	</mx:TabNavigator>
+</mx:Canvas>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="视频分类管理" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:util="util.cpt.*" layout="absolute" x="190" y="290" width="840" height="388" showCloseButton="true" creationComplete="initApp();" close="this.closeThis()">
+	<mx:Script source="as/videoType.as"/>
+	<mx:RemoteObject id="videoTypeService" destination="videoTypeService" showBusyCursor="true">
+		<mx:method name="getPageVideoType" result="getVideoTypesHandler(event)"/>
+		<mx:method name="getPagesize" result="getPagesizeHandler(event)"/>
+		<mx:method name="removeVideoType" result="removeVideoTypeHandler(event)" fault="getExecptionHander(event)"/>
+	</mx:RemoteObject>
+	<mx:Script>
+		<![CDATA[
+			public var fatherFunction:Function;
+		]]>
+	</mx:Script>
+<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
+<mx:DateFormatter id="timeFormatter" formatString="YYYY-MM-DD JJ:NN"/>
+<mx:VBox width="100%" height="100%">
+	<mx:ControlBar horizontalAlign="left"  width="100%" height="5%">
+		<mx:Label text="分类名称"/>
+		<mx:TextInput id="txtTypeName" />
+		<mx:Button id="cmdOk" label="查询" click="getVideoTypeByParaments()"/>
+		<mx:Spacer width="230"/>
+		<mx:ButtonBar itemClick="clickHandler(event)">
+            <mx:dataProvider>
+                <mx:Array>
+                    <mx:String>新增</mx:String>
+                    <mx:String>修改</mx:String>
+                    <mx:String>删除</mx:String>
+                </mx:Array>
+            </mx:dataProvider>
+        </mx:ButtonBar>
+	</mx:ControlBar>
+	<mx:HDividedBox width="100%" height="100%">
+		<mx:VBox width="75%" height="100%">
+			<mx:DataGrid id="videoTypeDG" dataProvider="{videoTypes.list}"  rowCount="10"  width="100%" height="90%">
+				<mx:columns>
+					<mx:DataGridColumn headerText="分类名称" width="10" dataField="typeName"/>
+					<mx:DataGridColumn headerText="所属分类" width="10" dataField="videoType" labelFunction="getParentTypeName"/>
+					<mx:DataGridColumn headerText="视频数量" width="5" dataField="videoNum"/>
+					<mx:DataGridColumn headerText="创建时间" width="20" dataField="createTime" labelFunction="createTimeFormatDate"/>
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:ControlBar width="100%" horizontalAlign="right">
+				<util:Page id="pageManager" finder="{videoTypes}"/>
+			</mx:ControlBar>
+		</mx:VBox>
+	</mx:HDividedBox>
+</mx:VBox>
+</mx:TitleWindow>

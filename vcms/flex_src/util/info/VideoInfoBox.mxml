@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	dropShadowEnabled="true" 
+    horizontalScrollPolicy="off" verticalScrollPolicy="off"
+	backgroundColor="#ffffff" borderColor="#400000" 
+    backgroundImage=""
+	borderStyle="solid" cornerRadius="5" 
+	visible="false" includeInLayout="false"
+	width="{(labVideoName.width+120)>420?(labVideoName.width+120):420}" 
+	height="260"  toolTip="双击关闭此窗口" 
+	 doubleClickEnabled="true" doubleClick="this.closeVideoInfo()"
+	  mouseDown="startDrag();" mouseUp="stopDrag()" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;	 
+		import mx.controls.Alert;
+		private function init():void{
+			this.addEventListener(FlexEvent.SHOW,reSize);
+		}
+		private function reSize(event:FlexEvent):void{
+			this.height = 260;
+			labVideoDesc.height = 44;
+		}
+		private function closeVideoInfo():void{
+			labVideoDesc.height = 44;
+			this.height = 260;
+			this.visible=false;		
+//			Alert.show(labVideoDesc.textHeight.toString());
+//			Alert.show(labTypeName.height.toString()+","+labTypeName.width.toString());
+		}
+		private function doMouseOver(event:MouseEvent):void{
+			height = (260-34+labVideoDesc.textHeight)>260?(260-34+labVideoDesc.textHeight):260;
+			labVideoDesc.height=(labVideoDesc.textHeight+10)>44?(labVideoDesc.textHeight+10):44;
+		}
+		]]>
+	</mx:Script>
+	<!--mx:Style>  
+        .myCustomButton {
+               overSkin:Embed(source="images/overCloseImage.gif");
+               upSkin:Embed(source="images/overCloseImage.gif");
+               downSkin:Embed(source="images/downCloseImage.gif");
+        }
+    </mx:Style>
+    <mx:HBox horizontalAlign="right" width="95%" top="10">
+		<mx:Button id="closeBtn" click="closeVideoInfo()" styleName="myCustomButton"/>
+    </mx:HBox--> 	 	
+  	<mx:Form width="100%" height="100%"> 		
+  		<mx:FormItem label="视频标题:">
+  			<mx:Label id="labVideoName"/>
+  		</mx:FormItem>		
+  		<mx:HBox width="100%">
+	  		<mx:VBox width="100%">
+	 	 		<mx:FormItem label="所属分类:">
+	 	 			<mx:Label id="labTypeName" width="{this.width-280}"/>
+	 	 		</mx:FormItem>
+	  			<mx:FormItem label="时间长:">
+	  				<mx:Label id="labTimeCount"/>
+	 	 		</mx:FormItem>
+	 	 		<mx:FormItem label="大小:">
+	 	 			<mx:Label id="labFileSize"/>
+	 	 		</mx:FormItem>
+	 	 		<mx:FormItem label="格式:">
+	 	 			<mx:Label id="labFileFormat"/>
+	 	 		</mx:FormItem>
+				<mx:FormItem label="上传时间:">
+	 	 			<mx:Label id="labCreateTime"/>
+	 	 		</mx:FormItem>
+	  		</mx:VBox>
+	  		<mx:Image id="labImage" width="160" height="128" ioError="labImage.source=''"/>
+  		</mx:HBox> 		
+  		<mx:FormItem label="视频描述:"  width="100%">
+  			<mx:TextArea id="labVideoDesc" width="100%" height="44" editable="false" wordWrap="true" alpha="0" horizontalScrollPolicy="off" mouseOver="doMouseOver(event)"/>
+  		</mx:FormItem>
+  	</mx:Form>
+</mx:VBox>	

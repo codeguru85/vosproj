@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="util.cpt.*" width="400" height="300" creationComplete="onCreationComplete();">
+	 <mx:RemoteObject id="securityService" destination="securityService" showBusyCursor="false">
+ 		<mx:method name="getGroupTreeXML" result="getGroupTreeXMLHandler(event);"/>
+ 	</mx:RemoteObject>
+ 	<mx:Style>
+ 		Panel {
+		   borderColor: #99CDEE;
+		   borderAlpha: 1;
+		   borderThickness: 1;
+		   borderThicknessLeft: 1;
+		   borderThicknessTop: 0;
+		   borderThicknessBottom: 1;
+		   borderThicknessRight: 1;
+		   roundedBottomCorners: false;
+		   cornerRadius: 5;
+		   headerColors: #b5e6f3, #81b3e6;
+		   dropShadowEnabled: false;
+		   titleStyleName: "mypanelTitle";
+		   vertical-align:middle;
+		   horizontal-align:center;
+		}
+ 	</mx:Style>
+ 	<mx:Script> 	
+ 		<![CDATA[
+ 			import pop.video.coverFlow;
+ 			import mx.events.ItemClickEvent;
+ 			import mx.managers.PopUpManager;
+ 			import mx.collections.ArrayCollection;
+ 			import mx.controls.Alert;
+ 			import mx.events.ListEvent;
+ 			import dto.security.GroupInfo;
+ 			import mx.rpc.events.ResultEvent;
+  
+ 			[Bindable]
+ 			private var groupXML:XMLList;
+ 			[Bindable]
+ 			private var item:Object;
+ 			
+ 			private function onCreationComplete():void{
+ 				securityService.getGroupTreeXML();
+ 			}
+ 			  
+ 		 
+ 			
+ 			private function getGroupTreeXMLHandler(event:ResultEvent):void{
+ 				var xml:XML = new XML(event.result);
+				groupXML = xml.node;	
+ 			}
+ 			
+ 			private function getreadfile(event:ListEvent):void{
+ 				item=List(event.target).selectedItem;
+ 				viewstack.selectedChild = viewread;
+ 				readbox.selected = false;
+ 				if(item.data==0){
+					readfile.dataProvider =  billnames;				
+ 				} 
+ 				if(item.data==1){
+ 					readfile.dataProvider = flacknames;
+ 				}			
+ 				if(item.data==2){
+ 					readfile.dataProvider = actionnames;
+ 				}	
+ 			}
+ 			
+ 			private function gettermfile(event:ListEvent):void{
+ 				viewstack.selectedChild = viewterm;
+ 				termbox.selected = false;
+ 			}
+ 			 			
+ 			private function valueover():void{ 				
+ 				var lists:ArrayCollection = new ArrayCollection;
+ 				lists = ArrayCollection(selectfile.dataProvider);
+ 				for(var j:int=0;j<lists.length;j++){
+ 					if(readfile.selectedItem.name==lists[j].name){
+ 						Alert.show(readfile.selectedItem.name+"己在播放列表中");
+ 					}
+ 				} 				
+ 			}
+ 			
+ 			private function delread():void{
+ 				var item:Object = selectfile.selectedItem;
+ 				if(item==null){
+ 					Alert.show("请选择要删除的播放文件");
+ 					return;
+ 				}else{
+ 					var arr:ArrayCollection = ArrayCollection(selectfile.dataProvider);
+ 					arr.removeItemAt(arr.getItemIndex(item));
+ 				}
+ 			}
+ 			
+ 			private function delAllread():void{
+ 				var arrcol:ArrayCollection = ArrayCollection(selectfile.dataProvider);
+ 				arrcol.removeAll();
+ 			}
+ 			
+ 			private function delterm():void{
+ 				var itemterm:Object = selectTerm.selectedItem;
+ 				if(itemterm==null){
+ 					Alert.show("请选择要删除的终端");
+ 					return;
+ 				}else{
+ 					var arrterm:ArrayCollection = ArrayCollection(selectTerm.dataProvider);
+ 					arrterm.removeItemAt(arrterm.getItemIndex(itemterm));
+ 				}
+ 			}
+ 			
+ 			private function delAllterm():void{
+ 				var arrcol:ArrayCollection = ArrayCollection(selectTerm.dataProvider);
+ 				arrcol.removeAll();
+ 			}
+ 			
+ 			private function clickterm():void{
+ 				var coverflow:coverFlow =new coverFlow(); 				
+ 				coverflow.readitem = flacknames;
+ 				PopUpManager.addPopUp(coverflow,this,true);
+ 				PopUpManager.centerPopUp(coverflow);
+ 			}
+ 			
+ 			private function termHandler(event:ItemClickEvent):void{
+ 				if(event.index==0){
+ 					this.delterm();
+ 				}
+ 				if(event.index==1){
+ 					this.delAllterm();
+ 				}
+ 			}
+ 			
+ 			private function readHandler(event:ItemClickEvent):void{ 				
+ 				if(event.index==0){
+ 					this.delread();
+ 				}
+ 				if(event.index==1){
+ 					this.delAllread();
+ 				}
+ 			}
+ 			
+ 			private function selectBox(flag:int):void{
+ 				if(flag==1&&readbox.selected){
+ 					/* var addread:ArrayCollection = ArrayCollection(selectfile.dataProvider);
+ 					var files:ArrayCollection = ArrayCollection(readfile.dataProvider);
+ 					for(var i:int=0;i<files.length;i++){
+ 						addread.addItem(files[i]);
+ 					} 		 */			 
+ 					selectfile.dataProvider = readfile.dataProvider; 					
+ 				}
+ 				if(flag==2&&termbox.selected){
+ 					 selectTerm.dataProvider = 	termlist.dataProvider;			
+ 				}
+ 			} 			
+ 		]]>
+ 	</mx:Script>
+ 	<mx:Model id="read">
+ 		<states>
+ 			<state label="广告片" data="0"/>
+ 			<state label="宣传片" data="1"/>
+ 			<state label="动作片" data="2"/>
+ 			<state label="视频" data="3"/>
+ 			<state label="恐怖片" data="4"/>
+ 		</states>
+ 	</mx:Model>
+ 	<mx:XMLList id="billnames">
+ 		<moving>
+ 			<name>Christina Coenraets</name> 			
+ 		</moving> 		
+ 	</mx:XMLList>
+ 	<mx:XMLList id="flacknames">
+ 		<moving>
+ 			<name>Joanne Wall</name>
+ 		</moving>
+ 		<moving>
+ 			<name>Maurice Smith</name>
+ 		</moving>
+ 	</mx:XMLList>
+ 	<mx:XMLList id="actionnames">
+ 		<moving>
+ 			<name>宝贝计划</name>
+ 		</moving>
+ 		<moving>
+ 			<name>真实的谎言</name>
+ 		</moving>
+ 		<moving>
+ 			<name>证人</name>
+ 		</moving>
+ 	</mx:XMLList>
+ 	<mx:XMLList id="termnames">
+ 		<moving>
+ 			<name>宝贝计划</name>
+ 			<Ip>192.168.0.12</Ip>
+ 		</moving>
+ 		<moving>
+ 			<name>真实的谎言</name>
+ 			<Ip>192.168.0.112</Ip>
+ 		</moving>
+ 		<moving>
+ 			<name>证人</name>
+ 			<Ip>192.168.0.123</Ip>
+ 		</moving>
+ 	</mx:XMLList>
+	<mx:Form width="100%" height="100%">
+		<mx:VBox width="100%" height="100%">
+			<mx:FormItem label="动态描述信息:" width="100%">
+				<mx:HBox width="100%">
+					<mx:TextInput/><mx:Button label="确定"/>					
+				</mx:HBox>
+			</mx:FormItem>			
+			<mx:HBox width="100%" height="100%">
+			<mx:Panel width="20%" height="100%" title="请选择">
+				<mx:Accordion id="accordion" width="100%" height="100%">
+					<mx:VBox label="视频文件" fontWeight="bold" fontSize="12" width="100%" height="100%">
+						<mx:List id="source" color="blue" dataProvider="{read.state}" change="getreadfile(event);" width="100%" height="100%"/>
+					</mx:VBox>
+					<mx:VBox label="终端" fontWeight="bold" fontSize="12" width="100%" height="100%">
+						<mx:List id="termsource" color="blue" dataProvider="{read.state}" change="gettermfile(event);" width="100%" height="100%"/>
+					</mx:VBox>
+				</mx:Accordion>
+			</mx:Panel>	
+				<mx:HDividedBox height="100%" width="80%">
+					<mx:ViewStack id="viewstack" height="100%" width="100%">
+						<mx:Form id="viewread">
+							<mx:HBox width="100%" height="5%" horizontalAlign="center">
+								<mx:FormItem label="影片名:">
+									<mx:TextInput/>	
+								</mx:FormItem>						
+								<mx:Button label="查询"/>							
+							</mx:HBox>
+							<mx:DataGrid width="100%" height="45%" id="readfile" rowCount="5" dragEnabled="true" dragMoveEnabled="false">
+								<mx:columns>
+									<mx:DataGridColumn dataField="name" headerText="名       字"/>
+								</mx:columns>
+							</mx:DataGrid>
+							<mx:HBox width="100%" height="5%">
+								<mx:FormItem horizontalAlign="left">
+									<mx:RadioButton id="readbox" label="全部" selected="false" click="selectBox(1);"/>
+								</mx:FormItem>
+								<mx:ControlBar width="100%" height="100%" horizontalAlign="right">
+									<mc:Pagination/>
+								</mx:ControlBar>								
+							</mx:HBox>							
+							<mx:DataGrid width="100%" height="45%" id="selectfile" rowCount="5" dragEnabled="false" dragMoveEnabled="false" dropEnabled="true" dragOver="valueover()">
+								<mx:columns>
+									<mx:DataGridColumn dataField="name" headerText="选中的播放文件"/>
+								</mx:columns>
+							</mx:DataGrid>
+							<mx:FormItem horizontalAlign="right" width="100%" height="5%">
+								<mx:ButtonBar itemClick="readHandler(event)">
+										<mx:dataProvider>
+											<mx:Array>
+												<mx:String>删除</mx:String>
+												<mx:String>删除全部</mx:String>
+											</mx:Array>
+										</mx:dataProvider>
+									</mx:ButtonBar>
+							</mx:FormItem>
+						</mx:Form>
+						<mx:Form id="viewterm">
+							<mx:HBox width="100%" height="5%" horizontalAlign="center">								
+								<mx:FormItem label="终端名:">
+									<mx:TextInput/>
+								</mx:FormItem>
+								<mx:FormItem label="终端IP:">
+									<mx:TextInput/>
+								</mx:FormItem>
+								<mx:Button label="查询"/>							
+							</mx:HBox>
+							<mx:DataGrid id="termlist" width="100%" height="45%" rowCount="5" dragEnabled="true" dragMoveEnabled="false" dataProvider="{termnames}">
+								<mx:columns>
+									<mx:DataGridColumn dataField="name" headerText="终端名"/>
+									<mx:DataGridColumn dataField="Ip" headerText="终端IP"/>
+								</mx:columns>
+							</mx:DataGrid>
+							<mx:HBox width="100%" height="5%">
+								<mx:FormItem horizontalAlign="left">
+									<mx:RadioButton id="termbox" label="全部" selected="false" click="selectBox(2);"/>
+								</mx:FormItem>
+								<mx:ControlBar width="100%" height="100%" horizontalAlign="right">
+									<mc:Pagination/>
+								</mx:ControlBar>								
+							</mx:HBox>
+							<mx:HBox width="100%" height="45%">
+								<mx:DataGrid id="selectTerm" width="100%" height="100%" rowCount="5" dragEnabled="false" dragMoveEnabled="false" dropEnabled="true" doubleClickEnabled="true" doubleClick="clickterm();">
+									<mx:columns>
+										<mx:DataGridColumn dataField="name" headerText="终端"/>									
+									</mx:columns>
+								</mx:DataGrid>								
+							</mx:HBox>
+							<mx:HBox width="100%" height="5%">
+								<mx:FormItem horizontalAlign="left" width="50%">									
+									<mx:ButtonBar itemClick="termHandler(event)">
+										<mx:dataProvider>
+											<mx:Array>
+												<mx:String>删除</mx:String>
+												<mx:String>删除全部</mx:String>
+											</mx:Array>
+										</mx:dataProvider>
+									</mx:ButtonBar>
+								</mx:FormItem>
+								<mx:FormItem horizontalAlign="right" width="50%" height="5%">
+									<mx:Button label="提交"/>								
+								</mx:FormItem>
+							</mx:HBox>
+						</mx:Form>
+					</mx:ViewStack>
+				</mx:HDividedBox>				
+			</mx:HBox>	
+		</mx:VBox>		
+	</mx:Form>
+</mx:VBox>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="高级查询" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ns1="util.*" layout="absolute" width="600" height="300" showCloseButton="true" close="PopUpManager.removePopUp(this);">
+<mx:Script source="as/tallVideo.as"/>	
+<mx:RemoteObject id="playInfoService" destination="playInfoService" showBusyCursor="true">
+	<mx:method name="getTallSelectPlay" result="getTallSelectPlayHandler(event);"/>
+</mx:RemoteObject>
+<mx:Script>
+	<![CDATA[
+		[Bindable]
+		public var fatherfunction:Function;
+	]]>
+</mx:Script>
+	<mx:Form id="selectvideo" width="100%" height="100%" borderStyle="solid" backgroundColor="#FFFFFF">
+		<mx:Label height="20%"/>
+		<mx:FormItem label="播放列表名:">
+			<mx:TextInput id="playname"/>	
+		</mx:FormItem>
+		<mx:Label width="5%"/>
+		<mx:FormItem label="创建时间:">
+		<mx:HBox width="100%" height="100%">
+			<mx:DateField id="sstartDate" formatString="YYYY-MM-DD" width="100" dayNames="['日', '一', '二', '三', '四', '五', '六']" monthNames="['一月', '二月', '三月', '四月', '五月','六月', '七月', '八月', '九月', '十月', '十一月', '十二月']" yearNavigationEnabled="true"/>	
+			<ns1:TimeInputEx  id="sstartTime" width="100"/>
+			<mx:Label text="—"/> 
+			<mx:DateField id="sendDate" formatString="YYYY-MM-DD" width="100" dayNames="['日', '一', '二', '三', '四', '五', '六']" monthNames="['一月', '二月', '三月', '四月', '五月','六月', '七月', '八月', '九月', '十月', '十一月', '十二月']" yearNavigationEnabled="true"/>
+			<ns1:TimeInputEx  id="sendTime" width="100" />			
+		</mx:HBox>
+		</mx:FormItem>		
+		<mx:Label height="10%"/>
+		<mx:FormItem width="100%">
+			<mx:HBox width="100%" horizontalAlign="left">
+				<mx:Button label="查询" click="queryTallVideo();"/>
+				<mx:Button label="取消" click="closeWindow();"/>
+			</mx:HBox>
+		</mx:FormItem>	
+	</mx:Form>
+</mx:TitleWindow>

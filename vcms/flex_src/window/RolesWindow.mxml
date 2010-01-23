@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	<mx:HDividedBox width="100%" height="100%">
+	 			<mx:VBox width="70%" height="100%">
+	 				<mx:HBox width="100%">
+			 			<mx:Label text="编号"/>
+			 			<mx:TextInput/>
+			 			<mx:Label text="用户名"/>
+			 			<mx:Spacer width="100%"/>
+			 		</mx:HBox>
+	 				<mx:DataGrid id="workDG" width="100%" height="100%">
+						<mx:columns>
+							<mx:DataGridColumn width="50">
+								<mx:itemRenderer>
+									<mx:Component>
+										<mx:Image width="50" height="50" horizontalAlign="center" source="images/userface.png"/>
+									</mx:Component>
+								</mx:itemRenderer>
+							</mx:DataGridColumn>
+							<mx:DataGridColumn headerText="编号" dataField="userId" width="40"/>
+							<mx:DataGridColumn headerText="用户名" dataField="uesrName" width="60"/>
+							<mx:DataGridColumn headerText="真实姓名" dataField="realName" width="60"/>
+							<mx:DataGridColumn headerText="部门" dataField="realName" width="60">
+								<mx:itemRenderer>
+									<mx:Component>
+										<mx:VBox height="50" verticalGap="0">
+											<mx:Repeater id="rp" dataProvider="{data.groupInfos}">
+												<mx:Label text="{rp.currentItem.groupName}"/>
+								            </mx:Repeater>   
+										</mx:VBox>
+									</mx:Component>
+								</mx:itemRenderer>
+							</mx:DataGridColumn>
+						</mx:columns>
+					</mx:DataGrid>
+	 			</mx:VBox>
+				<mx:VBox width="30%" height="100%">
+					<mx:Form width="100%">
+						<mx:FormItem label="电话" width="100%">
+							
+						</mx:FormItem>
+						<mx:FormItem label="地址" width="100%">
+							
+						</mx:FormItem>
+						<mx:FormItem label="部门" width="100%">
+							
+						</mx:FormItem>
+					</mx:Form>
+				</mx:VBox>
+	 		</mx:HDividedBox>
+</mx:Canvas>

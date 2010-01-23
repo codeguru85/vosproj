@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="修改视频信息" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mc="pop.video.*"  width="866" height="384" creationComplete="initApp();" showCloseButton="true" close="this.closeThis()">
+<mx:Script source="as/editVideoWindow.as"/>
+	<mx:RemoteObject id="videoInfoService" destination="videoInfoService" showBusyCursor="true">
+ 		<mx:method name="updateVideoInfo" result="updateVideoInfoHandler(event)"/>
+ 		<mx:method name="getIsSetVideoInfo" result="getIsSetVideoInfoHandler(event)"/>
+ 		<mx:method name="getVideoInfo" result="getVideoInfoHandler(event)"/>
+	</mx:RemoteObject>
+	<mx:RemoteObject id="videoTypeService" destination="videoTypeService" showBusyCursor="true">
+		<mx:method name="getTreeVideoType" result="getTreeVideoTypeHandler(event)"/>
+	</mx:RemoteObject>
+	<mx:RemoteObject id="videoAlbumService" destination="videoAlbumService" showBusyCursor="true">
+		<mx:method name="getTreeVideoAlbum" result="getTreeVideoAlbumHandler(event)"/>
+	</mx:RemoteObject>
+	<mx:Script>
+		<![CDATA[
+			public var fatherFunction:Function;
+		]]>
+	</mx:Script>
+	<mx:Number id="videoId"/>
+	<mx:TextInput id="txtAlbumId" visible="false" height="5"/>
+	<mx:Canvas id="videoList" width="100%" height="100%">
+	<mx:HDividedBox width="100%" height="100%">
+	<mx:TabNavigator id="menuTree"  horizontalAlign="left" tabWidth="83" width="20%" height="95%">
+ 		<mx:VBox label="视频分类" width="100%">
+ 			<mx:Tree id="selectTree"  itemRenderer="util.TreeCheckBoxRenderer" width="100%" height="100%" showRoot="true" doubleClickEnabled="true" labelField="@label" dataProvider="{videoTypeTree}"/>		 					
+ 		</mx:VBox>
+ 		<mx:VBox label="最新专辑" show="showTreeVideoAlbum()" width="100%">
+			<mx:Tree id="selectTree_Album"  itemRenderer="util.TreeCheckBoxRenderer" width="100%" height="100%" showRoot="true" doubleClickEnabled="true" labelField="@label" dataProvider="{videoAlbumTree}"/>		 					
+ 		</mx:VBox>
+ 	</mx:TabNavigator>
+ 	<mx:VBox width="80%" height="100%"> 	
+		<mx:Form width="620" height="100%">
+			<mx:FormItem label="视频标题" width="557" required="true">
+				<mx:TextInput id="txtVideoName" width="317" maxChars="40"/>
+			</mx:FormItem>
+			<mx:FormItem label="描述" width="557">
+				<mx:TextArea id="txtDesc"  width="348" height="109" maxChars="500"/>
+			</mx:FormItem>
+			<!--mx:FormItem label="选择专辑"  visible="false" width="262">
+			<mx:HBox>
+				<mx:TextInput id="txtAlbumName" editable="false" visible="false" width="150" click="getQueryVideoAlbum()"/><mx:Label visible="false" text="非必填"/>
+			</mx:HBox>
+			</mx:FormItem-->
+			<mx:FormItem label="关键字" width="561">
+			<mx:HBox>
+				<mx:TextInput id="txtKeyWords" text="" width="280" toolTip="逗号分隔"/><mx:Label text="非必填"/>
+			</mx:HBox>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:ControlBar width="100%" height="50">
+			<mx:HBox width="20%" horizontalAlign="left">
+				<mx:Button label="添加" id="addType" click="addTreeNode()"/>					
+			</mx:HBox>
+			<mx:HBox width="60%" horizontalAlign="right">
+				<mx:Button label="确认" id="saveVideoInfo" click="updateVideoInfo()"/>
+				<mx:Button label="取消" click="this.closeThis()"/>
+			</mx:HBox>
+		</mx:ControlBar>
+	</mx:VBox>
+	</mx:HDividedBox>
+	</mx:Canvas>
+	
+	<mx:StringValidator source="{txtVideoName}" property="text"
+		required="true" requiredFieldError="请输入视频名称"  
+		trigger="{saveVideoInfo}" triggerEvent="mouseDown"
+		minLength="1" tooShortError="请输入视频名称"
+		invalid="editVideoInfoBoolean=false"/>
+</mx:TitleWindow>

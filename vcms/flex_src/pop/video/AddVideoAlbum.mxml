@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="新增视频专辑" xmlns:mx="http://www.adobe.com/2006/mxml" width="586" height="286" showCloseButton="true" creationComplete="initApp()" close="this.closeThis()">
+<mx:Script source="as/addVideoAlbum.as"/>
+	<mx:RemoteObject id="videoAlbumService" destination="videoAlbumService" showBusyCursor="true">
+ 		<mx:method name="addVideoAlbum" result="addVideoAlbumHandler(event)"/>
+	</mx:RemoteObject>
+	<mx:Script>
+		<![CDATA[
+			public var fatherFunction:Function;
+		]]>
+	</mx:Script>
+	<mx:Form width="100%">
+		<mx:FormHeading label="视频专辑详细信息"/>
+		<mx:FormItem label="专辑名称" width="100%" required="true">
+			<mx:TextInput id="txtAlbumName" maxChars="32" width="317"/>
+		</mx:FormItem>
+		<mx:FormItem label="描述" width="100%">
+			<mx:TextArea id="txtDesc" maxChars="500" width="348" height="109"/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:ControlBar width="100%" horizontalAlign="center">
+		<mx:Button label="确认" id="saveVideoAlbum" click="addVideoAlbum()"/>
+		<mx:Button label="取消" click="this.closeThis()"/>
+	</mx:ControlBar>
+	<mx:StringValidator source="{txtAlbumName}" property="text"
+		required="true" requiredFieldError="请输入视频名称"
+		trigger="{saveVideoAlbum}" triggerEvent="mouseDown"
+		minLength="1" tooShortError="请输入视频名称"
+		invalid="addAlbumBoolean=false"/>
+</mx:TitleWindow>
