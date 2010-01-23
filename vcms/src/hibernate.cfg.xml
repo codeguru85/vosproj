@@ -5,9 +5,9 @@
 <hibernate-configuration>
     <session-factory name="vcms">
         <property name="hibernate.connection.driver_class">com.jdbc.mysql.Driver</property>
-        <property name="hibernate.connection.password">vcms</property>
-        <property name="hibernate.connection.url">jdbc:mysql://192.168.0.118/vcms?characterEncoding=UTF-8</property>
-        <property name="hibernate.connection.username">vcms</property>
+        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/vcms?characterEncoding=UTF-8</property>
+        <property name="hibernate.connection.username">root</property>
         <property name="hibernate.default_schema">vcms</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
     </session-factory>
