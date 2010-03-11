@@ -265,11 +265,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\log4c\defs.h"
+				RelativePath="..\..\..\src\sd\defs.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\sd\defs.h"
+				RelativePath="..\..\..\src\log4c\defs.h"
 				>
 			</File>
 			<File

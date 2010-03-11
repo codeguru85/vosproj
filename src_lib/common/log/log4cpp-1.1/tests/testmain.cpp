@@ -16,6 +16,8 @@
 #include "log4cpp/Priority.hh"
 #include "log4cpp/NDC.hh"
 
+#define  PROGRAM_NAME  "cxpl_drawing.log"
+
 int main(int argc, char** argv) {
 	log4cpp::Appender* appender;
 #ifdef LOG4CPP_HAVE_SYSLOG
@@ -28,11 +30,13 @@ int main(int argc, char** argv) {
 	syslogAppender = new log4cpp::OstreamAppender("syslogdummy", &std::cout);
 #endif
 
-	if (argc < 2) {
-		appender = new log4cpp::OstreamAppender("default", &std::cout);
-	} else {
-		appender = new log4cpp::FileAppender("default", argv[1]);
-	}
+	appender = new log4cpp::FileAppender("default", PROGRAM_NAME);
+
+	//if (argc < 2) {
+	//	appender = new log4cpp::OstreamAppender("default", &std::cout);
+	//} else {
+	//	appender = new log4cpp::FileAppender("default", argv[1]);
+	//}
 
 	syslogAppender->setLayout(new log4cpp::BasicLayout());
 	appender->setLayout(new log4cpp::BasicLayout());
